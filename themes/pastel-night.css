@@ -1,0 +1,29 @@
+:root {
+  --primary: #d9b3ff;
+  --secondary: #f2ecff;
+  --accent: #ffb38a;
+  --bg: #17152b;
+  --surface: #22203d;
+  --surface-alt: #2c2950;
+  --panel-bg: rgba(44, 41, 80, 0.94);
+  --logo-strip-bg: #241f43;
+  --edge: rgba(255, 179, 138, 0.32);
+  --hero-image: url("../assets/hero-pastel-night.svg");
+  --article-image: url("../assets/article-pastel-night.svg");
+  --font-main: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  --font-display: "Sora", "Segoe UI", sans-serif;
+  --panel-radius: 28px;
+  --card-radius: 22px;
+}
+
+body {
+  letter-spacing: 0.01em;
+}
+
+.hero-panel {
+  backdrop-filter: blur(1px);
+}
+
+.card {
+  border-style: solid;
+}

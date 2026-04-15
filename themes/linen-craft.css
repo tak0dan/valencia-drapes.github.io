@@ -1,0 +1,25 @@
+:root {
+  --primary: #7d4f3f;
+  --secondary: #2f2f2f;
+  --accent: #cf6a45;
+  --bg: #f7f3ed;
+  --surface: #fffdfa;
+  --surface-alt: #efe4d6;
+  --panel-bg: #efe1d1;
+  --logo-strip-bg: #fbf7eb;
+  --edge: rgba(61, 42, 34, 0.16);
+  --hero-image: url("../assets/hero-scene.svg");
+  --article-image: url("../assets/article-scene.svg");
+  --font-main: "Manrope", "Segoe UI", sans-serif;
+  --font-display: "Manrope", "Segoe UI", sans-serif;
+  --panel-radius: 20px;
+  --card-radius: 16px;
+}
+
+body {
+  letter-spacing: 0.01em;
+}
+
+.hero-panel {
+  box-shadow: none;
+}

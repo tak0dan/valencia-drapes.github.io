@@ -1,0 +1,36 @@
+:root {
+  --primary: #cba6f7;
+  --secondary: #cdd6f4;
+  --accent: #fab387;
+  --bg: #11111b;
+  --surface: #181825;
+  --surface-alt: #1e1e2e;
+  --panel-bg: rgba(30, 30, 46, 0.95);
+  --logo-strip-bg: #221f35;
+  --edge: rgba(203, 166, 247, 0.35);
+  --hero-image: url("../assets/hero-night.svg");
+  --article-image: url("../assets/article-night.svg");
+  --font-main: "DM Sans", "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --panel-radius: 26px;
+  --card-radius: 18px;
+}
+
+body {
+  letter-spacing: 0.005em;
+}
+
+.main-nav a,
+.theme-tools label,
+.hero p,
+.card p,
+.lead,
+.meta-note,
+.contact p,
+.contact li {
+  color: #bac2de;
+}
+
+.map {
+  border-color: rgba(203, 166, 247, 0.45);
+}

@@ -1,0 +1,17 @@
+:root {
+  --primary: #1f6f8b;
+  --secondary: #112f41;
+  --accent: #e85d04;
+  --bg: #f3f7fb;
+  --surface: #ffffff;
+  --surface-alt: #dff0ff;
+  --panel-bg: #cfe5f8;
+  --logo-strip-bg: #eaf4ff;
+  --edge: rgba(31, 111, 139, 0.25);
+  --hero-image: url("../assets/hero-scene.svg");
+  --article-image: url("../assets/article-scene.svg");
+  --font-main: "Manrope", "Segoe UI", sans-serif;
+  --font-display: "Sora", "Segoe UI", sans-serif;
+  --panel-radius: 22px;
+  --card-radius: 18px;
+}

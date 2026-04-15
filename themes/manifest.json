@@ -1,0 +1,70 @@
+{
+  "default": "linen-craft",
+  "themes": [
+    {
+      "id": "linen-craft",
+      "label": "Linen Craft",
+      "css": "linen-craft.css"
+    },
+    {
+      "id": "catppuccin-mocha",
+      "label": "Catppuccin Mocha",
+      "css": "catppuccin-mocha.css"
+    },
+    {
+      "id": "pastel-night",
+      "label": "Pastel Night",
+      "css": "pastel-night.css"
+    },
+    {
+      "id": "teal-orange-cyber",
+      "label": "Teal-Orange Cyber",
+      "css": "teal-orange-cyber.css"
+    },
+    {
+      "id": "nordic",
+      "label": "Nordic",
+      "css": "nordic.css"
+    },
+    {
+      "id": "monokai",
+      "label": "Monokai",
+      "css": "monokai.css"
+    },
+    {
+      "id": "gruvbox",
+      "label": "Gruvbox",
+      "css": "gruvbox.css"
+    },
+    {
+      "id": "premium-light",
+      "label": "Premium Light",
+      "css": "premium-light.css"
+    },
+    {
+      "id": "premium-dark",
+      "label": "Premium Dark",
+      "css": "premium-dark.css"
+    },
+    {
+      "id": "velvet",
+      "label": "Velvet",
+      "css": "velvet.css"
+    },
+    {
+      "id": "light-crimson",
+      "label": "Light Crimson",
+      "css": "light-crimson.css"
+    },
+    {
+      "id": "vibrant-pastel",
+      "label": "Vibrant Pastel",
+      "css": "vibrant-pastel.css"
+    },
+    {
+      "id": "colorful-drapes",
+      "label": "Colorful Drapes",
+      "css": "colorful-drapes.css"
+    }
+  ]
+}
