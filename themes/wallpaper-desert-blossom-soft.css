@@ -1,0 +1,17 @@
+:root {
+  --primary: #532d39;
+  --secondary: #fbd4b7;
+  --accent: #cc6f69;
+  --bg: #282030;
+  --surface: #423b49;
+  --surface-alt: #534d59;
+  --panel-bg: rgba(75, 69, 82, 0.95);
+  --logo-strip-bg: #241d2b;
+  --edge: rgba(83, 45, 57, 0.3);
+  --hero-image: url("../assets/hero-night.svg");
+  --article-image: url("../assets/article-night.svg");
+  --font-main: "Sora", "Segoe UI", sans-serif;
+  --font-display: "DM Sans", "Segoe UI", sans-serif;
+  --panel-radius: 24px;
+  --card-radius: 18px;
+}
