@@ -14,6 +14,45 @@
   --font-display: "Manrope", "Segoe UI", Tahoma, sans-serif;
   --panel-radius: 20px;
   --card-radius: 16px;
+
+  /* Semantic tokens for theme-driven page skins */
+  --color-page-start: color-mix(in srgb, var(--bg) 88%, var(--surface) 12%);
+  --color-page-mid: var(--surface);
+  --color-page-end: color-mix(in srgb, var(--bg) 82%, var(--surface) 18%);
+  --color-text-strong: color-mix(in srgb, var(--secondary) 88%, black 12%);
+  --color-text-soft: color-mix(in srgb, var(--secondary) 72%, var(--surface) 28%);
+  --color-on-dark: color-mix(in srgb, var(--surface) 96%, transparent);
+  --color-topbar-bg: color-mix(in srgb, var(--secondary) 82%, black 18%);
+  --color-topbar-link: color-mix(in srgb, var(--surface) 96%, transparent);
+  --color-highlight: var(--accent);
+  --color-header-bg: var(--surface);
+  --color-border-soft: color-mix(in srgb, var(--secondary) 18%, transparent);
+  --color-border-medium: color-mix(in srgb, var(--secondary) 28%, transparent);
+  --color-card-bg: var(--surface);
+  --color-card-bg-alt: color-mix(in srgb, var(--surface) 78%, var(--surface-alt) 22%);
+  --color-footer-bg: color-mix(in srgb, var(--secondary) 90%, black 10%);
+  --color-success: #25d366;
+}
+
+:root[data-theme-mode="dark"] {
+  --color-page-start: color-mix(in srgb, var(--bg) 90%, black 10%);
+  --color-page-mid: color-mix(in srgb, var(--surface) 92%, black 8%);
+  --color-page-end: color-mix(in srgb, var(--bg) 86%, black 14%);
+  --color-text-strong: color-mix(in srgb, var(--secondary) 92%, white 8%);
+  --color-text-soft: color-mix(in srgb, var(--secondary) 78%, white 22%);
+  --color-on-dark: #f7f7f9;
+  --color-topbar-bg: color-mix(in srgb, var(--bg) 45%, black 55%);
+  --color-topbar-link: color-mix(in srgb, var(--secondary) 88%, white 12%);
+  --color-header-bg: color-mix(in srgb, var(--surface) 90%, black 10%);
+  --color-border-soft: color-mix(in srgb, var(--secondary) 24%, white 8%);
+  --color-border-medium: color-mix(in srgb, var(--secondary) 34%, white 10%);
+  --color-card-bg: color-mix(in srgb, var(--surface) 94%, black 6%);
+  --color-card-bg-alt: color-mix(in srgb, var(--surface-alt) 88%, black 12%);
+  --color-footer-bg: color-mix(in srgb, var(--bg) 34%, black 66%);
+}
+
+:root[data-theme-mode="light"] {
+  --color-on-dark: #f6f6f6;
 }
 
 *, *::before, *::after {
@@ -703,6 +742,197 @@ a {
   margin-top: 16px;
 }
 
+body.reviews-page .service-hero {
+  padding: 24px 0 0;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 82%, transparent) 0%, color-mix(in srgb, var(--bg) 95%, transparent) 100%);
+}
+
+body.reviews-page .hero-panel {
+  max-width: 760px;
+}
+
+body.reviews-page .hero-cutout,
+body.reviews-page .hero-close {
+  display: none;
+}
+
+body.reviews-page .service-article {
+  margin-top: 0;
+  padding: 28px 0 60px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--panel-bg) 36%, transparent) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 40%, transparent 100%),
+    var(--article-image) center/cover fixed no-repeat;
+}
+
+.reviews-marquee-head {
+  margin-bottom: 14px;
+}
+
+.reviews-marquee-head h2,
+.reviews-marquee-head h3 {
+  margin: 0;
+}
+
+.reviews-status {
+  margin: 6px 0 0;
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+}
+
+.reviews-summary {
+  margin: 6px 0 0;
+  color: var(--secondary);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.reviews-marquee-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.9fr);
+  align-items: stretch;
+}
+
+.reviews-lanes {
+  display: grid;
+  gap: 12px;
+}
+
+.reviews-lane {
+  overflow: hidden;
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  padding: 10px 0;
+  mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
+}
+
+.reviews-track {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: max-content;
+  animation: reviews-scroll-left 95s linear infinite;
+  padding: 0 6px;
+}
+
+.reviews-lane[data-direction="right"] .reviews-track {
+  animation-name: reviews-scroll-right;
+}
+
+.review-pill {
+  min-width: clamp(240px, 30vw, 340px);
+  max-width: 340px;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--edge);
+  background: linear-gradient(160deg, var(--surface) 0%, var(--surface-alt) 100%);
+}
+
+.review-pill-text {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  color: var(--secondary);
+}
+
+.review-pill-meta {
+  margin: 9px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.review-pill-person {
+  margin: 8px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-pill-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid var(--edge);
+  object-fit: cover;
+}
+
+.review-pill-stars {
+  color: #f2b623;
+  letter-spacing: 0.03em;
+  font-size: 0.82rem;
+}
+
+.review-pill-author {
+  color: color-mix(in srgb, var(--secondary) 70%, var(--surface) 30%);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.reviews-map-card {
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.reviews-map-frame {
+  width: 100%;
+  min-height: 245px;
+  border: 0;
+  border-radius: 10px;
+}
+
+.map-link-btn {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--surface);
+  background: linear-gradient(120deg, var(--accent), color-mix(in srgb, var(--accent) 74%, black 26%));
+  border-radius: 999px;
+  padding: 9px 16px;
+  min-height: 38px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.map-link-btn:hover {
+  filter: brightness(1.03);
+}
+
+@keyframes reviews-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes reviews-scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reviews-track {
+    animation-duration: 0.001ms;
+    animation-iteration-count: 1;
+  }
+}
+
 @media (max-width: 760px) {
   .page-shell {
     --page-block-width: 100%;
@@ -810,5 +1040,13 @@ a {
     min-height: 64px;
     height: 64px;
     font-size: 1.8rem;
+  }
+
+  .reviews-marquee-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .map-link-btn {
+    width: 100%;
   }
 }

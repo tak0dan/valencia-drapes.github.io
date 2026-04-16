@@ -63,6 +63,23 @@
       .map((part) => Math.round(Number.parseFloat(part.trim())) || 0);
   }
 
+  function getRelativeLuminance(rgb) {
+    const channel = rgb.map((value) => {
+      const normalized = value / 255;
+      return normalized <= 0.03928
+        ? normalized / 12.92
+        : ((normalized + 0.055) / 1.055) ** 2.4;
+    });
+    return (0.2126 * channel[0]) + (0.7152 * channel[1]) + (0.0722 * channel[2]);
+  }
+
+  function setThemeModeFromComputed() {
+    const computed = getComputedStyle(document.documentElement);
+    const bg = parseColor(computed.getPropertyValue("--bg"));
+    const mode = getRelativeLuminance(bg) < 0.24 ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme-mode", mode);
+  }
+
   function humanizeThemeId(themeId) {
     return themeId
       .split("-")
@@ -174,8 +191,11 @@
     link.href = cssPath;
     document.documentElement.setAttribute("data-theme", theme.id);
     link.onload = function () {
+      setThemeModeFromComputed();
       syncThemeLogos();
     };
+    // Fallback for cases where stylesheet is already cached and applied quickly.
+    requestAnimationFrame(setThemeModeFromComputed);
   }
 
   async function loadJson(path) {

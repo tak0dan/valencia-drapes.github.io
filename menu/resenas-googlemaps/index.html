@@ -6,7 +6,7 @@
   <title>Resenas y Google Maps | Cortinas Valencia</title>
   <link rel="stylesheet" href="../../linked-css/styles.css" />
 </head>
-<body data-themes-base="../../themes">
+<body class="reviews-page" data-themes-base="../../themes">
   <header class="header">
     <div class="container topbar">
       <a class="logo-link" href="../../Index.html">
@@ -28,25 +28,56 @@
           <h1>Resenas y Google Maps</h1>
           <p class="lead">Opiniones reales y ubicacion para visitarnos facilmente.</p>
         </div>
-        <div class="hero-cutout" aria-hidden="true"></div>
-        <div class="hero-close" aria-hidden="true"></div>
       </div>
     </section>
 
     <section class="service-article">
       <div class="container article-inner">
-        <section class="detail-card">
-          <h2>Que ofrecemos</h2>
-          <p>Soluciones personalizadas, medicion, confeccion e instalacion profesional adaptadas a cada espacio.</p>
-        </section>
-        <section class="detail-card">
-          <h2>Proceso de trabajo</h2>
-          <p>Asesoramiento inicial, propuesta tecnica y estetica, ejecucion a medida y seguimiento final para asegurar el resultado.</p>
+        <section
+          class="detail-card reviews-marquee"
+          aria-label="Resenas de Google"
+          data-google-reviews
+          data-reviews-source="prefetched"
+          data-google-place-query="INGAMA TEXTIL / CORTINAS Y DECORACION DEL HOGAR, Valencia"
+          data-min-rating="3.5"
+          data-google-api-key=""
+          data-reviews-endpoint="../../assets/google-reviews.prefetch.json"
+          data-prefetched-reviews="../../assets/google-reviews.prefetch.json"
+        >
+          <div class="reviews-marquee-head">
+            <h2>Resenas y Google Maps</h2>
+          </div>
+
+          <div class="reviews-marquee-grid">
+            <div class="reviews-lanes" aria-live="polite">
+              <div class="reviews-lane" data-direction="right">
+                <div class="reviews-track" data-reviews-track="0"></div>
+              </div>
+              <div class="reviews-lane" data-direction="left">
+                <div class="reviews-track" data-reviews-track="1"></div>
+              </div>
+              <div class="reviews-lane" data-direction="right">
+                <div class="reviews-track" data-reviews-track="2"></div>
+              </div>
+            </div>
+
+            <aside class="reviews-map-card" aria-label="Mapa de tienda en Google Maps">
+              <iframe
+                class="reviews-map-frame"
+                title="Mapa INGAMA TEXTIL"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps?q=INGAMA%20TEXTIL%20VALENCIA&output=embed"
+              ></iframe>
+              <a class="map-link-btn" href="https://maps.app.goo.gl/vK4tr5SUv1c3KCzt8" target="_blank" rel="noopener noreferrer">Abrir en Google Maps</a>
+            </aside>
+          </div>
         </section>
       </div>
     </section>
   </main>
 
   <script src="../../assets/theme-loader.js"></script>
+  <script src="../../assets/reviews-marquee.js"></script>
 </body>
 </html>
