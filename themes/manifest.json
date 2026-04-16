@@ -68,162 +68,162 @@
     },
     {
       "id": "wallpaper-1",
-      "label": "Wallpaper 1",
+      "label": "Gallery Umber",
       "css": "wallpaper-1.css"
     },
     {
       "id": "wallpaper-11",
-      "label": "Wallpaper 11",
+      "label": "Atelier Mist",
       "css": "wallpaper-11.css"
     },
     {
       "id": "wallpaper-111",
-      "label": "Wallpaper 111",
+      "label": "Linen Afterglow",
       "css": "wallpaper-111.css"
     },
     {
       "id": "wallpaper-abstract-flower",
-      "label": "Wallpaper Abstract Flower",
+      "label": "Bloom Contour",
       "css": "wallpaper-abstract-flower.css"
     },
     {
       "id": "wallpaper-buildings",
-      "label": "Wallpaper Buildings",
+      "label": "City Slate",
       "css": "wallpaper-buildings.css"
     },
     {
       "id": "wallpaper-desert-blossom-red",
-      "label": "Wallpaper Desert Blossom Red",
+      "label": "Carmine Dune",
       "css": "wallpaper-desert-blossom-red.css"
     },
     {
       "id": "wallpaper-desert-blossom-remembrance",
-      "label": "Wallpaper Desert Blossom Remembrance",
+      "label": "Rose Remembrance",
       "css": "wallpaper-desert-blossom-remembrance.css"
     },
     {
       "id": "wallpaper-desert-blossom-soft",
-      "label": "Wallpaper Desert Blossom Soft",
+      "label": "Petal Veil",
       "css": "wallpaper-desert-blossom-soft.css"
     },
     {
       "id": "wallpaper-desert-calm-crimson",
-      "label": "Wallpaper Desert Calm Crimson",
+      "label": "Crimson Horizon",
       "css": "wallpaper-desert-calm-crimson.css"
     },
     {
       "id": "wallpaper-desert-calm",
-      "label": "Wallpaper Desert Calm",
+      "label": "Quiet Dune",
       "css": "wallpaper-desert-calm.css"
     },
     {
       "id": "wallpaper-desert-cosmic-distortion",
-      "label": "Wallpaper Desert Cosmic Distortion",
+      "label": "Astral Ember",
       "css": "wallpaper-desert-cosmic-distortion.css"
     },
     {
       "id": "wallpaper-desert-dark",
-      "label": "Wallpaper Desert Dark",
+      "label": "Midnight Mesa",
       "css": "wallpaper-desert-dark.css"
     },
     {
       "id": "wallpaper-desert-duality",
-      "label": "Wallpaper Desert Duality",
+      "label": "Dual Horizon",
       "css": "wallpaper-desert-duality.css"
     },
     {
       "id": "wallpaper-desert-eclipse",
-      "label": "Wallpaper Desert Eclipse",
+      "label": "Eclipse Sand",
       "css": "wallpaper-desert-eclipse.css"
     },
     {
       "id": "wallpaper-desert-emerald",
-      "label": "Wallpaper Desert Emerald",
+      "label": "Verdant Mirage",
       "css": "wallpaper-desert-emerald.css"
     },
     {
       "id": "wallpaper-desert-magic-distortion",
-      "label": "Wallpaper Desert Magic Distortion",
+      "label": "Mirage Prism",
       "css": "wallpaper-desert-magic-distortion.css"
     },
     {
       "id": "wallpaper-desert-night",
-      "label": "Wallpaper Desert Night",
+      "label": "Nocturne Dune",
       "css": "wallpaper-desert-night.css"
     },
     {
       "id": "wallpaper-desert-oil",
-      "label": "Wallpaper Desert Oil",
+      "label": "Burnished Onyx",
       "css": "wallpaper-desert-oil.css"
     },
     {
       "id": "wallpaper-desert-pastel-dream",
-      "label": "Wallpaper Desert Pastel Dream",
+      "label": "Pastel Reverie",
       "css": "wallpaper-desert-pastel-dream.css"
     },
     {
       "id": "wallpaper-desert-pastel-soft",
-      "label": "Wallpaper Desert Pastel Soft",
+      "label": "Soft Solstice",
       "css": "wallpaper-desert-pastel-soft.css"
     },
     {
       "id": "wallpaper-desert-remembrance-of-domination",
-      "label": "Wallpaper Desert Remembrance Of Domination",
+      "label": "Regal Remembrance",
       "css": "wallpaper-desert-remembrance-of-domination.css"
     },
     {
       "id": "wallpaper-desert-remembrance-of-sacrifice",
-      "label": "Wallpaper Desert Remembrance Of Sacrifice",
+      "label": "Saffron Tribute",
       "css": "wallpaper-desert-remembrance-of-sacrifice.css"
     },
     {
       "id": "wallpaper-desert-simple",
-      "label": "Wallpaper Desert Simple",
+      "label": "Bare Sand",
       "css": "wallpaper-desert-simple.css"
     },
     {
       "id": "wallpaper-desert-vibrant",
-      "label": "Wallpaper Desert Vibrant",
+      "label": "Sunlit Ember",
       "css": "wallpaper-desert-vibrant.css"
     },
     {
       "id": "wallpaper-desert-white",
-      "label": "Wallpaper Desert White",
+      "label": "Ivory Expanse",
       "css": "wallpaper-desert-white.css"
     },
     {
       "id": "wallpaper-desert-whm40k-imperium",
-      "label": "Wallpaper Desert WHM40k Imperium",
+      "label": "Imperial Sandstone",
       "css": "wallpaper-desert-whm40k-imperium.css"
     },
     {
       "id": "wallpaper-desert-whm40k-khorn",
-      "label": "Wallpaper Desert WHM40k Khorn",
+      "label": "Crimson Forge",
       "css": "wallpaper-desert-whm40k-khorn.css"
     },
     {
       "id": "wallpaper-desert-whm40k-nurgle",
-      "label": "Wallpaper Desert WHM40k Nurgle",
+      "label": "Verdigris Vale",
       "css": "wallpaper-desert-whm40k-nurgle.css"
     },
     {
       "id": "wallpaper-desert-whm40k-slaanesh",
-      "label": "Wallpaper Desert WHM40k Slaanesh",
+      "label": "Velvet Amaranth",
       "css": "wallpaper-desert-whm40k-slaanesh.css"
     },
     {
       "id": "wallpaper-desert-whm40k-tseentch",
-      "label": "Wallpaper Desert WHM40k Tseentch",
+      "label": "Cerulean Arc",
       "css": "wallpaper-desert-whm40k-tseentch.css"
     },
     {
       "id": "wallpaper-desert",
-      "label": "Wallpaper Desert",
+      "label": "Desert Atelier",
       "css": "wallpaper-desert.css"
     },
     {
       "id": "wallpaper-fantasy-japanese-street",
-      "label": "Wallpaper Fantasy Japanese Street",
+      "label": "Lantern District",
       "css": "wallpaper-fantasy-japanese-street.css"
     },
     {
