@@ -1,0 +1,17 @@
+:root {
+  --primary: #324252;
+  --secondary: #1f2730;
+  --accent: #b9895b;
+  --bg: #eff3f6;
+  --surface: #fbfdff;
+  --surface-alt: #dee6ee;
+  --panel-bg: #d4dde5;
+  --logo-strip-bg: #cad4dd;
+  --edge: rgba(27, 40, 53, 0.22);
+  --hero-image: url("assets/hero-night.svg");
+  --article-image: url("assets/article-night.svg");
+  --font-main: "IBM Plex Sans", "Segoe UI", Tahoma, sans-serif;
+  --font-display: "IBM Plex Serif", "Times New Roman", serif;
+  --panel-radius: 20px;
+  --card-radius: 16px;
+}

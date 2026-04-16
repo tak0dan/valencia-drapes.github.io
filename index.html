@@ -4,18 +4,20 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cortinas Valencia – Confección y Tapicería</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="linked-css/vendor/modern-normalize.css"/>
+  <link rel="stylesheet" href="linked-css/styles.css"/>
+  <link rel="stylesheet" href="linked-css/home-elegant.css"/>
 </head>
 
-<body data-themes-base="./themes">
+<body class="home-elegant" data-themes-base="./themes">
   <div class="page-shell">
     <header class="header">
     <div class="container topbar">
-      <a class="logo-link" href="Index.html">
+      <a class="logo-link" href="index.html">
         <span>Ingama Textil</span>
       </a>
       <nav class="main-nav">
-        <a href="Index.html">Inicio</a>
+        <a href="index.html">Inicio</a>
         <details class="nav-dropdown">
           <summary>Catalogo</summary>
           <div class="dropdown-menu" role="menu" aria-label="Catalogo de productos">
@@ -68,9 +70,35 @@
 
   <section class="hero">
     <div class="hero-text container">
-      <h1>Cortinas y Tapicería en Valencia</h1>
-      <p>Confeccion a medida, instalacion profesional y casi medio siglo de experiencia en textil hogar.</p>
-      <a class="cta" href="#catalogo">Ver catalogo completo</a>
+      <div class="hero-lead-wrap">
+        <div>
+          <h1>Cortinas y tapiceria de autor en Valencia</h1>
+          <p>Confeccion a medida, instalacion precisa y asesoramiento experto para hogares, hoteles y espacios comerciales.</p>
+          <a class="cta" href="#catalogo">Ver catalogo completo</a>
+        </div>
+        <div class="hero-badges" aria-label="Indicadores de experiencia">
+          <div class="hero-badge"><strong>45+</strong><span>anos de oficio</span></div>
+          <div class="hero-badge"><strong>360°</strong><span>servicio integral</span></div>
+          <div class="hero-badge"><strong>100%</strong><span>soluciones a medida</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="value-strip" aria-label="Diferenciales">
+    <div class="value-strip-inner">
+      <article class="value-item">
+        <h3>Direccion creativa textil</h3>
+        <p>Propuestas esteticas adaptadas a cada arquitectura, luz natural y estilo de vida.</p>
+      </article>
+      <article class="value-item">
+        <h3>Ejecucion impecable</h3>
+        <p>Medicion, taller propio e instalacion para garantizar ajuste, caida y durabilidad.</p>
+      </article>
+      <article class="value-item">
+        <h3>Materiales seleccionados</h3>
+        <p>Tejidos tecnicos y decorativos con enfoque en confort, mantenimiento y rendimiento.</p>
+      </article>
     </div>
   </section>
 
@@ -241,17 +269,25 @@
   <section id="contacto" class="contact section">
     <div class="container">
       <h2>Contacto</h2>
-      <p><strong>Teléfono:</strong> 612 489 562</p>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>Atencion personalizada</h3>
+          <p><strong>Telefono:</strong> 612 489 562</p>
+          <p>Atendemos proyectos residenciales y profesionales. Solicita asesoramiento, visita de medicion o presupuesto detallado.</p>
+          <a class="cta" href="tel:+34612489562">Llamar ahora</a>
+        </div>
+        <div class="schedule-card">
+          <h3>Horario</h3>
+          <ul class="schedule-list">
+            <li>Lunes a viernes: 9:00-14:00 y 17:00-19:00</li>
+            <li>Tramo 14:00-17:00: cita previa</li>
+            <li>Sabado: 10:00-14:00</li>
+          </ul>
+        </div>
+      </div>
 
-      <h3>Horario</h3>
-      <ul>
-        <li>Lunes–Viernes: 9:00–14:00 y 17:00–19:00</li>
-        <li>De 14:00–17:00 con cita previa</li>
-        <li>Sábado: 10:00–14:00</li>
-      </ul>
-
-      <div class="map">
-        <!-- Embed Google Maps here -->
+      <div class="map" style="margin-top: 18px;">
+        <!-- Inserta aqui el mapa de Google Maps -->
       </div>
     </div>
   </section>

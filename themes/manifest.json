@@ -225,6 +225,21 @@
       "id": "wallpaper-fantasy-japanese-street",
       "label": "Wallpaper Fantasy Japanese Street",
       "css": "wallpaper-fantasy-japanese-street.css"
+    },
+    {
+      "id": "atelier-ivory",
+      "label": "Atelier Ivory",
+      "css": "atelier-ivory.css"
+    },
+    {
+      "id": "metropolitan-slate",
+      "label": "Metropolitan Slate",
+      "css": "metropolitan-slate.css"
+    },
+    {
+      "id": "boutique-rosewood",
+      "label": "Boutique Rosewood",
+      "css": "boutique-rosewood.css"
     }
   ]
 }
