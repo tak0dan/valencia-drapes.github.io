@@ -68,27 +68,27 @@
     },
     {
       "id": "wallpaper-1",
-      "label": "Gallery Umber",
+      "label": "Teal Atelier",
       "css": "wallpaper-1.css"
     },
     {
       "id": "wallpaper-11",
-      "label": "Atelier Mist",
+      "label": "Amethyst Nocturne",
       "css": "wallpaper-11.css"
     },
     {
       "id": "wallpaper-111",
-      "label": "Linen Afterglow",
+      "label": "Cerulean Linen",
       "css": "wallpaper-111.css"
     },
     {
       "id": "wallpaper-abstract-flower",
-      "label": "Bloom Contour",
+      "label": "Burnt Sienna Bloom",
       "css": "wallpaper-abstract-flower.css"
     },
     {
       "id": "wallpaper-buildings",
-      "label": "City Slate",
+      "label": "Terracotta Passage",
       "css": "wallpaper-buildings.css"
     },
     {
@@ -118,7 +118,7 @@
     },
     {
       "id": "wallpaper-desert-cosmic-distortion",
-      "label": "Astral Ember",
+      "label": "Cosmic Indigo",
       "css": "wallpaper-desert-cosmic-distortion.css"
     },
     {
@@ -138,7 +138,7 @@
     },
     {
       "id": "wallpaper-desert-emerald",
-      "label": "Verdant Mirage",
+      "label": "Solar Mirage",
       "css": "wallpaper-desert-emerald.css"
     },
     {
@@ -153,7 +153,7 @@
     },
     {
       "id": "wallpaper-desert-oil",
-      "label": "Burnished Onyx",
+      "label": "Burnt Terracotta",
       "css": "wallpaper-desert-oil.css"
     },
     {
@@ -173,7 +173,7 @@
     },
     {
       "id": "wallpaper-desert-remembrance-of-sacrifice",
-      "label": "Saffron Tribute",
+      "label": "Mahogany Remembrance",
       "css": "wallpaper-desert-remembrance-of-sacrifice.css"
     },
     {
@@ -183,12 +183,12 @@
     },
     {
       "id": "wallpaper-desert-vibrant",
-      "label": "Sunlit Ember",
+      "label": "Amethyst Blaze",
       "css": "wallpaper-desert-vibrant.css"
     },
     {
       "id": "wallpaper-desert-white",
-      "label": "Ivory Expanse",
+      "label": "Cardinal Veil",
       "css": "wallpaper-desert-white.css"
     },
     {
@@ -213,7 +213,7 @@
     },
     {
       "id": "wallpaper-desert-whm40k-tseentch",
-      "label": "Cerulean Arc",
+      "label": "Indigo Arc",
       "css": "wallpaper-desert-whm40k-tseentch.css"
     },
     {

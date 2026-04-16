@@ -6,6 +6,40 @@
     accent: [155, 122, 33],
     text: [84, 72, 69],
   };
+  const premiumThemeLabels = {
+    "wallpaper-1": "Teal Atelier",
+    "wallpaper-11": "Amethyst Nocturne",
+    "wallpaper-111": "Cerulean Linen",
+    "wallpaper-abstract-flower": "Burnt Sienna Bloom",
+    "wallpaper-buildings": "Terracotta Passage",
+    "wallpaper-desert-blossom-red": "Carmine Dune",
+    "wallpaper-desert-blossom-remembrance": "Rose Remembrance",
+    "wallpaper-desert-blossom-soft": "Petal Veil",
+    "wallpaper-desert-calm-crimson": "Crimson Horizon",
+    "wallpaper-desert-calm": "Quiet Dune",
+    "wallpaper-desert-cosmic-distortion": "Cosmic Indigo",
+    "wallpaper-desert-dark": "Midnight Mesa",
+    "wallpaper-desert-duality": "Dual Horizon",
+    "wallpaper-desert-eclipse": "Eclipse Sand",
+    "wallpaper-desert-emerald": "Solar Mirage",
+    "wallpaper-desert-magic-distortion": "Mirage Prism",
+    "wallpaper-desert-night": "Nocturne Dune",
+    "wallpaper-desert-oil": "Burnt Terracotta",
+    "wallpaper-desert-pastel-dream": "Pastel Reverie",
+    "wallpaper-desert-pastel-soft": "Soft Solstice",
+    "wallpaper-desert-remembrance-of-domination": "Regal Remembrance",
+    "wallpaper-desert-remembrance-of-sacrifice": "Mahogany Remembrance",
+    "wallpaper-desert-simple": "Bare Sand",
+    "wallpaper-desert-vibrant": "Amethyst Blaze",
+    "wallpaper-desert-white": "Cardinal Veil",
+    "wallpaper-desert-whm40k-imperium": "Imperial Sandstone",
+    "wallpaper-desert-whm40k-khorn": "Crimson Forge",
+    "wallpaper-desert-whm40k-nurgle": "Verdigris Vale",
+    "wallpaper-desert-whm40k-slaanesh": "Velvet Amaranth",
+    "wallpaper-desert-whm40k-tseentch": "Indigo Arc",
+    "wallpaper-desert": "Desert Atelier",
+    "wallpaper-fantasy-japanese-street": "Lantern District",
+  };
 
   function parseColor(value) {
     if (!value) return [0, 0, 0];
@@ -27,6 +61,25 @@
       .split(",")
       .slice(0, 3)
       .map((part) => Math.round(Number.parseFloat(part.trim())) || 0);
+  }
+
+  function humanizeThemeId(themeId) {
+    return themeId
+      .split("-")
+      .filter(Boolean)
+      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+      .join(" ");
+  }
+
+  function getThemeLabel(theme) {
+    if (!theme || !theme.id) return "";
+
+    const rawLabel = typeof theme.label === "string" ? theme.label.trim() : "";
+    if (rawLabel && !/^wallpaper[-\s]/i.test(rawLabel)) {
+      return rawLabel;
+    }
+
+    return premiumThemeLabels[theme.id] || rawLabel || humanizeThemeId(theme.id);
   }
 
   function colorDistance(left, right) {
@@ -148,7 +201,7 @@
       themes.forEach((item) => {
         const opt = document.createElement("option");
         opt.value = item.id;
-        opt.textContent = item.label;
+        opt.textContent = getThemeLabel(item);
         selector.appendChild(opt);
       });
 
