@@ -70,7 +70,7 @@ body.home-elegant {
   background: var(--header-bg);
   border-bottom: 1px solid var(--color-border-soft);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .home-elegant .site-header::before {
@@ -969,6 +969,15 @@ body.brand-docked .home-elegant .header-brand-dock {
     --top-header-h: 58px;
   }
 
+  .home-elegant .nav-bar {
+    position: relative;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-height: auto;
+  }
+
   .home-elegant .top-header-inner,
   .home-elegant .top-contact,
   .home-elegant .top-social {
@@ -979,6 +988,7 @@ body.brand-docked .home-elegant .header-brand-dock {
   .home-elegant .nav-toggle {
     display: inline-block;
     margin-left: auto;
+    order: 2;
   }
 
   .home-elegant .main-nav {
@@ -987,12 +997,16 @@ body.brand-docked .home-elegant .header-brand-dock {
     right: 0;
     top: calc(100% + 1px);
     display: none;
+    order: 4;
+    width: 100%;
     flex-direction: column;
     align-items: stretch;
     background: var(--surface-strong);
     border-bottom: 1px solid var(--color-border-soft);
+    border-radius: 0 0 14px 14px;
     padding: 12px;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    z-index: 8;
   }
 
   .home-elegant .main-nav.is-open {
@@ -1000,7 +1014,16 @@ body.brand-docked .home-elegant .header-brand-dock {
   }
 
   .home-elegant .theme-tools {
+    order: 3;
     margin-left: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .home-elegant .theme-tools select {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 240px;
   }
 
   .home-elegant .header-brand-title {
@@ -1009,6 +1032,15 @@ body.brand-docked .home-elegant .header-brand-dock {
 
   .home-elegant .header-brand-dock {
     height: 44px;
+    order: 1;
+  }
+
+  .home-elegant .dropdown-menu {
+    position: static;
+    width: 100%;
+    max-height: 40vh;
+    margin-top: 8px;
+    box-shadow: none;
   }
 
   .home-elegant .reviews-marquee-grid,

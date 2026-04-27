@@ -284,13 +284,74 @@
   (function () {
     var toggle = document.querySelector('[data-nav-toggle]');
     var nav = document.getElementById('main-nav');
+    var navDropdown = document.querySelector('.nav-dropdown');
+    var navSummary = navDropdown ? navDropdown.querySelector('summary') : null;
+    var navLinks = nav ? Array.from(nav.querySelectorAll('a')) : [];
+    var hoverQuery = window.matchMedia ? window.matchMedia('(hover: hover) and (pointer: fine)') : null;
+
+    function setNavOpen(opened) {
+      if (!toggle || !nav) return;
+      nav.classList.toggle('is-open', opened);
+      toggle.setAttribute('aria-expanded', opened ? 'true' : 'false');
+    }
+
+    function setDropdownOpen(opened) {
+      if (!navDropdown || !navSummary) return;
+      navDropdown.open = opened;
+      navSummary.setAttribute('aria-expanded', opened ? 'true' : 'false');
+    }
 
     if (toggle && nav) {
       toggle.addEventListener('click', function () {
-        var opened = nav.classList.toggle('is-open');
-        toggle.setAttribute('aria-expanded', opened ? 'true' : 'false');
+        setNavOpen(!nav.classList.contains('is-open'));
       });
     }
+
+    if (navSummary) {
+      navSummary.setAttribute('aria-expanded', 'false');
+      navSummary.addEventListener('click', function (event) {
+        event.preventDefault();
+        setDropdownOpen(!navDropdown.open);
+      });
+    }
+
+    if (navDropdown) {
+      navDropdown.addEventListener('mouseleave', function () {
+        if (hoverQuery && hoverQuery.matches) {
+          setDropdownOpen(false);
+        }
+      });
+
+      navDropdown.addEventListener('mouseenter', function () {
+        if (hoverQuery && hoverQuery.matches) {
+          setDropdownOpen(true);
+        }
+      });
+    }
+
+    document.addEventListener('click', function (event) {
+      if (navDropdown && !navDropdown.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+
+      if (toggle && nav && !nav.contains(event.target) && !toggle.contains(event.target)) {
+        setNavOpen(false);
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        setDropdownOpen(false);
+        setNavOpen(false);
+      }
+    });
+
+    navLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
+        setDropdownOpen(false);
+        setNavOpen(false);
+      });
+    });
 
     var header = document.querySelector('.site-header');
     var brandHero = document.querySelector('.brand-hero');
