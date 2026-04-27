@@ -1,6 +1,11 @@
 {
-  "default": "linen-craft",
+  "default": "ingama-brand",
   "themes": [
+    {
+      "id": "ingama-brand",
+      "label": "Ingama Brand",
+      "css": "ingama-brand.css"
+    },
     {
       "id": "linen-craft",
       "label": "Linen Craft",

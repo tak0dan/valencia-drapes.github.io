@@ -286,8 +286,31 @@
     var nav = document.getElementById('main-nav');
     var navDropdown = document.querySelector('.nav-dropdown');
     var navSummary = navDropdown ? navDropdown.querySelector('summary') : null;
+    var dropdownMenu = navDropdown ? navDropdown.querySelector('.dropdown-menu') : null;
     var navLinks = nav ? Array.from(nav.querySelectorAll('a')) : [];
     var hoverQuery = window.matchMedia ? window.matchMedia('(hover: hover) and (pointer: fine)') : null;
+
+    function isPointInsideRect(rect, x, y) {
+      return rect && x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    }
+
+    function isPointInsideSummary(x, y) {
+      if (!navSummary) return false;
+      return isPointInsideRect(navSummary.getBoundingClientRect(), x, y);
+    }
+
+    function isPointInsideExpandedDropdown(x, y) {
+      if (!dropdownMenu || !navDropdown || !navDropdown.open) return false;
+      var rect = dropdownMenu.getBoundingClientRect();
+      var padX = rect.width * 0.2;
+      var padY = rect.height * 0.2;
+      return isPointInsideRect({
+        left: rect.left - padX,
+        right: rect.right + padX,
+        top: rect.top - padY,
+        bottom: rect.bottom + padY,
+      }, x, y);
+    }
 
     function setNavOpen(opened) {
       if (!toggle || !nav) return;
@@ -316,18 +339,22 @@
     }
 
     if (navDropdown) {
-      navDropdown.addEventListener('mouseleave', function () {
-        if (hoverQuery && hoverQuery.matches) {
-          setDropdownOpen(false);
-        }
-      });
-
       navDropdown.addEventListener('mouseenter', function () {
         if (hoverQuery && hoverQuery.matches) {
           setDropdownOpen(true);
         }
       });
     }
+
+    document.addEventListener('mousemove', function (event) {
+      if (!navDropdown || !hoverQuery || !hoverQuery.matches || !navDropdown.open) return;
+      var insideSafeZone = isPointInsideSummary(event.clientX, event.clientY)
+        || isPointInsideExpandedDropdown(event.clientX, event.clientY);
+
+      if (!insideSafeZone) {
+        setDropdownOpen(false);
+      }
+    });
 
     document.addEventListener('click', function (event) {
       if (navDropdown && !navDropdown.contains(event.target)) {

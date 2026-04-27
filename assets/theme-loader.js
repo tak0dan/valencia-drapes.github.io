@@ -1,5 +1,7 @@
 (function () {
   const storageKey = "cortinas-theme";
+  const storageVersionKey = "cortinas-theme-version";
+  const storageVersion = "2";
   const styleId = "dynamic-theme-style";
   const originalPalette = {
     background: [251, 247, 235],
@@ -209,6 +211,11 @@
   async function initThemeSelector() {
     const selector = document.querySelector("[data-theme-selector]");
     if (!selector) return;
+
+    if (localStorage.getItem(storageVersionKey) !== storageVersion) {
+      localStorage.removeItem(storageKey);
+      localStorage.setItem(storageVersionKey, storageVersion);
+    }
 
     const basePath = document.body.getAttribute("data-themes-base") || "./themes";
     const manifestPath = `${basePath.replace(/\/$/, "")}/manifest.json`;
