@@ -59,7 +59,7 @@ body.home-elegant {
 .home-elegant #catalogo .product-card h3 {
   margin: 0;
   color: var(--primary);
-  font-family: "Merriweather", "Georgia", serif;
+  font-family: var(--tile-font, "Abril Fatface", "Times New Roman", serif);
   font-size: clamp(calc(1.5rem * var(--products-title-scale)), calc(2.5vw * var(--products-title-scale)), calc(3rem * var(--products-title-scale)));
   font-weight: 900;
   text-transform: uppercase;

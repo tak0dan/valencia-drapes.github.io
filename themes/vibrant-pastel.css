@@ -15,6 +15,11 @@
   --font-display: "Space Grotesk", "Segoe UI", sans-serif;
   --panel-radius: 19px;
   --card-radius: 16px;
+  --tile-radius: max(var(--card-radius), 18px);
+  --tile-gap: 12px;
+  --tile-menu-gap: 6px;
+  --tile-menu-padding: 10px;
+  --tile-menu-radius: calc(var(--tile-radius) + 2px);
   --tile-font: "Satisfy", cursive;
   --tile-border-color: var(--primary);
 }

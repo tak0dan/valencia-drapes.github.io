@@ -13,6 +13,12 @@
   --article-image: url("../assets/article-night.svg");
   --font-main: "Manrope", "Segoe UI", sans-serif;
   --font-display: "Sora", "Segoe UI", sans-serif;
+  --tile-font: "Satisfy", cursive;
   --panel-radius: 19px;
   --card-radius: 14px;
+  --tile-radius: max(var(--card-radius), 18px);
+  --tile-gap: 12px;
+  --tile-menu-gap: 6px;
+  --tile-menu-padding: 10px;
+  --tile-menu-radius: calc(var(--tile-radius) + 2px);
 }
