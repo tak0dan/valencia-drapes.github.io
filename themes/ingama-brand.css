@@ -12,8 +12,8 @@
   --article-image: url("../assets/article-scene.svg");
   --font-main: "Manrope", "Segoe UI", Tahoma, sans-serif;
   --font-display: "Merriweather", "Georgia", serif;
-  --panel-radius: 20px;
-  --card-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 13px;
 }
 
 :root[data-theme-mode="dark"] {

@@ -12,6 +12,6 @@
   --article-image: url("assets/article-scene.svg");
   --font-main: "Source Sans 3", "Segoe UI", Tahoma, sans-serif;
   --font-display: "Fraunces", "Times New Roman", serif;
-  --panel-radius: 20px;
-  --card-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 13px;
 }

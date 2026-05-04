@@ -12,6 +12,6 @@
   --article-image: url("../assets/article-pastel-night.svg");
   --font-main: "Plus Jakarta Sans", "Segoe UI", sans-serif;
   --font-display: "Sora", "Segoe UI", sans-serif;
-  --panel-radius: 26px;
-  --card-radius: 20px;
+  --panel-radius: 21px;
+  --card-radius: 16px;
 }

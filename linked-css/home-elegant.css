@@ -113,7 +113,7 @@ body.is-collapsing .home-elegant .site-header::before {
   width: 64px;
   height: 64px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--color-border-medium);
 }
 
@@ -693,7 +693,7 @@ body.brand-docked .home-elegant .header-brand-dock {
   display: grid;
   gap: 0;
   padding: 14px;
-  border-radius: 12px;
+  border-radius: 10px;
   background: linear-gradient(180deg, rgba(8, 8, 8, 0.16), rgba(8, 8, 8, 0.38));
 }
 
@@ -725,7 +725,7 @@ body.brand-docked .home-elegant .header-brand-dock {
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--color-border-soft);
   object-fit: cover;
 }
@@ -782,7 +782,7 @@ body.brand-docked .home-elegant .header-brand-dock {
 
 .home-elegant .tab-panels {
   border: 1px solid var(--color-border-medium);
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 18px;
   background: var(--color-card-bg);
 }
@@ -805,7 +805,7 @@ body.brand-docked .home-elegant .header-brand-dock {
 
 .home-elegant .brand-chip {
   min-height: 90px;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--color-border-medium);
   background: var(--color-card-bg);
   display: grid;
@@ -877,7 +877,7 @@ body.brand-docked .home-elegant .header-brand-dock {
 .home-elegant .review-pill {
   min-width: clamp(240px, 30vw, 340px);
   max-width: 340px;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 12px 14px;
   border: 1px solid var(--color-border-medium);
   background: linear-gradient(160deg, var(--color-card-bg) 0%, var(--color-card-bg-alt) 100%);
@@ -995,7 +995,7 @@ body.brand-docked .home-elegant .header-brand-dock {
 .home-elegant .news-card {
   background: var(--color-card-bg);
   border: 1px solid var(--color-border-soft);
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
 }

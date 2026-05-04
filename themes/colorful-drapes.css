@@ -12,6 +12,6 @@
   --article-image: url("../assets/article-scene.svg");
   --font-main: "Manrope", "Segoe UI", sans-serif;
   --font-display: "Sora", "Segoe UI", sans-serif;
-  --panel-radius: 22px;
-  --card-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 14px;
 }

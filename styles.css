@@ -8,8 +8,8 @@
   --panel-bg: #efe1d1;
   --logo-strip-bg: #e5e2d8;
   --edge: rgba(61, 42, 34, 0.16);
-  --hero-image: url("assets/hero-scene.svg");
-  --article-image: url("assets/article-scene.svg");
+  --hero-image: url("Assets-images/images-placeholders/hero-scene.svg");
+  --article-image: url("Assets-images/images-placeholders/article-scene.svg");
   --font-main: "Manrope", "Segoe UI", Tahoma, sans-serif;
   --font-display: "Manrope", "Segoe UI", Tahoma, sans-serif;
   --panel-radius: 20px;

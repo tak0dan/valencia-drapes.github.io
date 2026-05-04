@@ -3,6 +3,10 @@
   const storageVersionKey = "cortinas-theme-version";
   const storageVersion = "2";
   const styleId = "dynamic-theme-style";
+  const maxLogoDevicePixelRatio = 2;
+  const logoSourceCache = new Map();
+  const logoRenderCache = new Map();
+  let themeApplySequence = 0;
   const originalPalette = {
     background: [251, 247, 235],
     accent: [155, 122, 33],
@@ -75,6 +79,67 @@
     return (0.2126 * channel[0]) + (0.7152 * channel[1]) + (0.0722 * channel[2]);
   }
 
+  function getContrastRatio(foreground, background) {
+    const foregroundLuminance = getRelativeLuminance(foreground);
+    const backgroundLuminance = getRelativeLuminance(background);
+    const lighter = Math.max(foregroundLuminance, backgroundLuminance);
+    const darker = Math.min(foregroundLuminance, backgroundLuminance);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+
+  function clampChannel(value) {
+    return Math.max(0, Math.min(255, Math.round(value)));
+  }
+
+  function mixColors(left, right, ratio) {
+    return left.map((value, index) => clampChannel((value * (1 - ratio)) + (right[index] * ratio)));
+  }
+
+  function rgbToCss(rgb) {
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+  }
+
+  function dedupeColors(colors) {
+    const seen = new Set();
+    return colors.filter((color) => {
+      const key = color.join(",");
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function pickForeground(backgrounds, candidates, minContrast = 4.5) {
+    const ranked = dedupeColors(candidates)
+      .map((candidate, index) => ({
+        candidate,
+        index,
+        score: Math.min(...backgrounds.map((background) => getContrastRatio(candidate, background))),
+      }));
+
+    const passing = ranked.find((entry) => entry.score >= minContrast);
+    if (passing) {
+      return passing.candidate;
+    }
+
+    return ranked.sort((left, right) => right.score - left.score || left.index - right.index)[0].candidate;
+  }
+
+  function pickSurfaceSet(backgroundSets, foregroundCandidates, minContrast = 4.5) {
+    const ranked = backgroundSets.map((backgrounds, index) => {
+      const foreground = pickForeground(backgrounds, foregroundCandidates, minContrast);
+      return {
+        backgrounds,
+        foreground,
+        index,
+        score: Math.min(...backgrounds.map((background) => getContrastRatio(foreground, background))),
+      };
+    });
+
+    return ranked.find((entry) => entry.score >= minContrast)
+      || ranked.sort((left, right) => right.score - left.score || left.index - right.index)[0];
+  }
+
   function setThemeModeFromComputed() {
     const computed = getComputedStyle(document.documentElement);
     const bg = parseColor(computed.getPropertyValue("--bg"));
@@ -117,62 +182,433 @@
     return distances[0][0];
   }
 
-  function getThemePalette() {
+  function getLogoPalette() {
     const computed = getComputedStyle(document.documentElement);
     return {
       background: parseColor(computed.getPropertyValue("--logo-strip-bg") || computed.getPropertyValue("--panel-bg")),
-      accent: parseColor(computed.getPropertyValue("--accent") || computed.getPropertyValue("--primary")),
-      text: parseColor(computed.getPropertyValue("--secondary")),
+      accent: parseColor(computed.getPropertyValue("--color-logo-mark") || computed.getPropertyValue("--primary")),
+      text: parseColor(computed.getPropertyValue("--color-logo-text") || computed.getPropertyValue("--color-text-on-brand") || computed.getPropertyValue("--secondary")),
     };
+  }
+
+  function getPaletteSignature(palette) {
+    return Object.values(palette)
+      .map((value) => value.join(","))
+      .join("|");
+  }
+
+  function getThemeSemanticPalette() {
+    const computed = getComputedStyle(document.documentElement);
+    return {
+      bg: parseColor(computed.getPropertyValue("--bg")),
+      surface: parseColor(computed.getPropertyValue("--surface")),
+      surfaceAlt: parseColor(computed.getPropertyValue("--surface-alt")),
+      panelBg: parseColor(computed.getPropertyValue("--panel-bg")),
+      logoStripBg: parseColor(computed.getPropertyValue("--logo-strip-bg")),
+      primary: parseColor(computed.getPropertyValue("--primary")),
+      secondary: parseColor(computed.getPropertyValue("--secondary")),
+      accent: parseColor(computed.getPropertyValue("--accent")),
+      topbarBg: parseColor(computed.getPropertyValue("--color-topbar-bg")),
+      footerBg: parseColor(computed.getPropertyValue("--color-footer-bg")),
+      success: parseColor(computed.getPropertyValue("--color-success")),
+    };
+  }
+
+  function syncThemeContrastTokens() {
+    const rootStyle = document.documentElement.style;
+    const palette = getThemeSemanticPalette();
+    const white = [255, 255, 255];
+    const black = [0, 0, 0];
+    const surfaceBlend = mixColors(palette.surface, palette.bg, 0.5);
+    const pageSurfaces = [palette.bg, palette.surface, palette.panelBg, palette.logoStripBg];
+    const baseCandidates = [
+      palette.secondary,
+      mixColors(palette.secondary, black, 0.22),
+      mixColors(palette.secondary, white, 0.18),
+      palette.primary,
+      mixColors(palette.primary, black, 0.25),
+      mixColors(palette.primary, white, 0.18),
+      mixColors(palette.surface, black, 0.82),
+      mixColors(palette.bg, black, 0.82),
+      mixColors(palette.surface, white, 0.82),
+      mixColors(palette.bg, white, 0.82),
+      black,
+      white,
+    ];
+    const textBase = pickForeground([palette.bg], baseCandidates, 4.5);
+    const textOnSurface = pickForeground([palette.surface, palette.panelBg, palette.logoStripBg], baseCandidates, 4.5);
+    const textOnBrand = pickForeground([palette.logoStripBg], baseCandidates, 4.5);
+    const textStrong = pickForeground(pageSurfaces, baseCandidates, 4.5);
+    const textSoft = pickForeground(
+      [palette.bg, palette.surface, palette.panelBg],
+      [
+        mixColors(textOnSurface, palette.surface, 0.22),
+        mixColors(textOnSurface, palette.panelBg, 0.24),
+        mixColors(textOnSurface, palette.bg, 0.28),
+        textOnSurface,
+      ],
+      3
+    );
+    const heading = pickForeground(
+      [palette.bg, palette.surface, palette.panelBg],
+      [
+        palette.primary,
+        mixColors(palette.primary, palette.secondary, 0.32),
+        mixColors(palette.primary, black, 0.2),
+        mixColors(palette.primary, white, 0.16),
+        textStrong,
+        palette.secondary,
+      ],
+      3.2
+    );
+    const logoText = pickForeground(
+      [palette.logoStripBg],
+      [
+        textOnBrand,
+        palette.secondary,
+        heading,
+        textStrong,
+        black,
+        white,
+      ],
+      4.5
+    );
+    const logoMark = pickForeground(
+      [palette.logoStripBg],
+      [
+        palette.primary,
+        mixColors(palette.primary, palette.accent, 0.34),
+        palette.accent,
+        mixColors(palette.accent, white, 0.22),
+        mixColors(palette.accent, black, 0.24),
+        heading,
+        black,
+        white,
+      ],
+      3
+    );
+    const link = pickForeground(
+      [palette.bg],
+      [
+        palette.accent,
+        mixColors(palette.accent, palette.primary, 0.36),
+        mixColors(palette.accent, black, 0.18),
+        mixColors(palette.accent, white, 0.16),
+        heading,
+        textStrong,
+        black,
+        white,
+      ],
+      4.5
+    );
+    const linkOnSurface = pickForeground(
+      [palette.surface, palette.panelBg],
+      [
+        palette.accent,
+        mixColors(palette.accent, palette.primary, 0.36),
+        mixColors(palette.accent, black, 0.18),
+        mixColors(palette.accent, white, 0.16),
+        heading,
+        textStrong,
+        black,
+        white,
+      ],
+      4.5
+    );
+    const linkOnBrand = pickForeground(
+      [palette.logoStripBg],
+      [
+        palette.accent,
+        mixColors(palette.accent, palette.primary, 0.36),
+        mixColors(palette.accent, black, 0.18),
+        mixColors(palette.accent, white, 0.16),
+        heading,
+        textStrong,
+        black,
+        white,
+      ],
+      4.5
+    );
+    const accentSurface = pickSurfaceSet(
+      [
+        [palette.accent, mixColors(palette.accent, black, 0.26)],
+        [mixColors(palette.accent, palette.primary, 0.18), mixColors(palette.accent, black, 0.34)],
+        [mixColors(palette.accent, black, 0.16), mixColors(palette.accent, black, 0.42)],
+        [mixColors(palette.accent, white, 0.16), mixColors(palette.accent, black, 0.28)],
+        [mixColors(palette.accent, black, 0.34), mixColors(palette.accent, black, 0.56)],
+        [mixColors(palette.accent, white, 0.28), mixColors(palette.accent, white, 0.08)],
+      ],
+      [
+        palette.secondary,
+        mixColors(palette.secondary, black, 0.28),
+        mixColors(palette.secondary, white, 0.22),
+        palette.surface,
+        mixColors(palette.surface, black, 0.82),
+        mixColors(palette.surface, white, 0.82),
+        black,
+        white,
+      ],
+      4.5
+    );
+    const emphasisSurface = pickSurfaceSet(
+      [
+        [palette.primary, palette.secondary],
+        [mixColors(palette.primary, black, 0.22), mixColors(palette.secondary, black, 0.22)],
+        [mixColors(palette.primary, black, 0.38), mixColors(palette.secondary, black, 0.38)],
+        [mixColors(palette.primary, black, 0.52), mixColors(palette.secondary, black, 0.52)],
+        [mixColors(palette.primary, white, 0.22), mixColors(palette.secondary, white, 0.22)],
+        [mixColors(palette.primary, white, 0.36), mixColors(palette.secondary, white, 0.36)],
+        [mixColors(palette.primary, palette.bg, 0.18), mixColors(palette.secondary, palette.bg, 0.18)],
+      ],
+      [
+        palette.surface,
+        mixColors(palette.surface, white, 0.72),
+        mixColors(palette.surface, black, 0.82),
+        palette.secondary,
+        mixColors(palette.secondary, black, 0.24),
+        mixColors(palette.secondary, white, 0.2),
+        black,
+        white,
+      ],
+      4.5
+    );
+    const topbarSurface = pickSurfaceSet(
+      [
+        [mixColors(palette.bg, black, 0.55)],
+        [mixColors(palette.secondary, black, 0.34)],
+        [mixColors(palette.bg, black, 0.72)],
+        [mixColors(palette.secondary, black, 0.5)],
+        [mixColors(palette.surface, black, 0.78)],
+      ],
+      [
+        palette.surface,
+        mixColors(palette.surface, white, 0.78),
+        mixColors(palette.secondary, white, 0.42),
+        mixColors(palette.bg, white, 0.82),
+        white,
+        mixColors(palette.surface, black, 0.82),
+        black,
+      ],
+      4.5
+    );
+    const footerSurface = pickSurfaceSet(
+      [
+        [mixColors(palette.secondary, black, 0.18)],
+        [mixColors(palette.secondary, black, 0.34)],
+        [mixColors(palette.bg, black, 0.58)],
+        [mixColors(palette.secondary, palette.bg, 0.28)],
+        [mixColors(palette.surface, black, 0.82)],
+      ],
+      [
+        palette.surface,
+        mixColors(palette.surface, white, 0.78),
+        mixColors(palette.secondary, white, 0.42),
+        mixColors(palette.bg, white, 0.82),
+        white,
+        mixColors(palette.surface, black, 0.82),
+        black,
+      ],
+      4.5
+    );
+    const accentOnTopbar = pickForeground(
+      [topbarSurface.backgrounds[0]],
+      [
+        palette.accent,
+        mixColors(palette.accent, white, 0.22),
+        mixColors(palette.accent, palette.primary, 0.28),
+        topbarSurface.foreground,
+      ],
+      3.2
+    );
+    const accentOnFooter = pickForeground(
+      [footerSurface.backgrounds[0]],
+      [
+        palette.accent,
+        mixColors(palette.accent, white, 0.22),
+        mixColors(palette.accent, palette.primary, 0.28),
+        footerSurface.foreground,
+      ],
+      3.2
+    );
+    const onInk = pickForeground(
+      [textStrong],
+      [
+        palette.surface,
+        mixColors(palette.surface, white, 0.74),
+        mixColors(palette.surface, black, 0.82),
+        palette.bg,
+        mixColors(palette.bg, white, 0.82),
+        mixColors(palette.bg, black, 0.82),
+        black,
+        white,
+      ],
+      4.5
+    );
+    const onSuccess = pickForeground(
+      [palette.success],
+      [
+        palette.secondary,
+        mixColors(palette.secondary, black, 0.28),
+        mixColors(palette.secondary, white, 0.24),
+        mixColors(palette.bg, black, 0.82),
+        mixColors(palette.surface, white, 0.82),
+        black,
+        white,
+      ],
+      4.5
+    );
+    const ratingStar = pickForeground(
+      [palette.surface, palette.surfaceAlt, palette.panelBg, surfaceBlend],
+      [
+        palette.accent,
+        mixColors(palette.accent, palette.primary, 0.3),
+        mixColors(palette.accent, black, 0.24),
+        mixColors(palette.accent, white, 0.16),
+        link,
+        heading,
+        black,
+        white,
+      ],
+      3
+    );
+
+    rootStyle.setProperty("--color-text-base", rgbToCss(textBase));
+    rootStyle.setProperty("--color-text-on-surface", rgbToCss(textOnSurface));
+    rootStyle.setProperty("--color-text-on-brand", rgbToCss(textOnBrand));
+    rootStyle.setProperty("--color-logo-text", rgbToCss(logoText));
+    rootStyle.setProperty("--color-logo-mark", rgbToCss(logoMark));
+    rootStyle.setProperty("--color-text-strong", rgbToCss(textStrong));
+    rootStyle.setProperty("--color-text-soft", rgbToCss(textSoft));
+    rootStyle.setProperty("--color-heading", rgbToCss(heading));
+    rootStyle.setProperty("--color-link", rgbToCss(link));
+    rootStyle.setProperty("--color-link-on-surface", rgbToCss(linkOnSurface));
+    rootStyle.setProperty("--color-link-on-brand", rgbToCss(linkOnBrand));
+    rootStyle.setProperty("--color-topbar-bg", rgbToCss(topbarSurface.backgrounds[0]));
+    rootStyle.setProperty("--color-topbar-link", rgbToCss(topbarSurface.foreground));
+    rootStyle.setProperty("--color-footer-bg", rgbToCss(footerSurface.backgrounds[0]));
+    rootStyle.setProperty("--color-footer-fg", rgbToCss(footerSurface.foreground));
+    rootStyle.setProperty("--color-accent-bg", rgbToCss(accentSurface.backgrounds[0]));
+    rootStyle.setProperty("--color-accent-bg-strong", rgbToCss(accentSurface.backgrounds[1]));
+    rootStyle.setProperty("--color-on-accent", rgbToCss(accentSurface.foreground));
+    rootStyle.setProperty("--color-emphasis-bg-start", rgbToCss(emphasisSurface.backgrounds[0]));
+    rootStyle.setProperty("--color-emphasis-bg-end", rgbToCss(emphasisSurface.backgrounds[1]));
+    rootStyle.setProperty("--color-on-emphasis", rgbToCss(emphasisSurface.foreground));
+    rootStyle.setProperty("--color-on-ink", rgbToCss(onInk));
+    rootStyle.setProperty("--color-on-dark", rgbToCss(pickForeground(
+      [mixColors(palette.bg, black, 0.64)],
+      [white, mixColors(palette.surface, white, 0.24), mixColors(palette.bg, white, 0.82), black],
+      4.5
+    )));
+    rootStyle.setProperty("--color-accent-on-topbar", rgbToCss(accentOnTopbar));
+    rootStyle.setProperty("--color-accent-on-footer", rgbToCss(accentOnFooter));
+    rootStyle.setProperty("--color-accent-on-dark", rgbToCss(accentOnFooter));
+    rootStyle.setProperty("--color-on-success", rgbToCss(onSuccess));
+    rootStyle.setProperty("--color-rating-star", rgbToCss(ratingStar));
+  }
+
+  function loadLogoSource(source) {
+    if (!logoSourceCache.has(source)) {
+      logoSourceCache.set(source, new Promise((resolve, reject) => {
+        const bitmap = new Image();
+        bitmap.decoding = "async";
+        bitmap.onload = function () {
+          resolve(bitmap);
+        };
+        bitmap.onerror = function () {
+          reject(new Error(`No se pudo cargar el logo base: ${source}`));
+        };
+        bitmap.src = source;
+      }));
+    }
+
+    return logoSourceCache.get(source);
+  }
+
+  function getLogoRenderSize(image, bitmap) {
+    const rect = image.getBoundingClientRect();
+    const cssWidth = rect.width || image.clientWidth || image.width || bitmap.naturalWidth;
+    const aspectRatio = bitmap.naturalHeight / bitmap.naturalWidth;
+    const dpr = Math.min(window.devicePixelRatio || 1, maxLogoDevicePixelRatio);
+    const targetWidth = Math.max(1, Math.min(bitmap.naturalWidth, Math.round(cssWidth * dpr)));
+    const targetHeight = Math.max(1, Math.min(bitmap.naturalHeight, Math.round(targetWidth * aspectRatio)));
+
+    return { width: targetWidth, height: targetHeight };
+  }
+
+  function renderRecoloredLogo(source, palette, width, height) {
+    const cacheKey = `${source}|${getPaletteSignature(palette)}|${width}x${height}`;
+    if (!logoRenderCache.has(cacheKey)) {
+      logoRenderCache.set(cacheKey, loadLogoSource(source).then((bitmap) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        if (!context) {
+          throw new Error("No se pudo inicializar el canvas del logo");
+        }
+
+        context.drawImage(bitmap, 0, 0, width, height);
+        const frame = context.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = frame.data;
+
+        for (let index = 0; index < pixels.length; index += 4) {
+          const alpha = pixels[index + 3];
+          if (!alpha) continue;
+
+          const rgb = [pixels[index], pixels[index + 1], pixels[index + 2]];
+          const targetKey = pickPaletteTarget(rgb);
+          const target = palette[targetKey];
+
+          if (targetKey === "background") {
+            pixels[index + 3] = 0;
+            continue;
+          }
+
+          pixels[index] = target[0];
+          pixels[index + 1] = target[1];
+          pixels[index + 2] = target[2];
+        }
+
+        context.putImageData(frame, 0, 0);
+        return canvas.toDataURL("image/png");
+      }));
+    }
+
+    return logoRenderCache.get(cacheKey);
   }
 
   function recolorLogoImage(image, palette) {
     const source = image.dataset.logoSrc || image.getAttribute("src");
-    if (!source) return;
+    if (!source) return Promise.resolve();
 
-    const bitmap = new Image();
-    bitmap.decoding = "async";
-    bitmap.onload = function () {
-      const canvas = document.createElement("canvas");
-      canvas.width = bitmap.naturalWidth;
-      canvas.height = bitmap.naturalHeight;
-
-      const context = canvas.getContext("2d", { willReadFrequently: true });
-      if (!context) return;
-
-      context.drawImage(bitmap, 0, 0);
-      const frame = context.getImageData(0, 0, canvas.width, canvas.height);
-      const pixels = frame.data;
-
-      for (let index = 0; index < pixels.length; index += 4) {
-        const alpha = pixels[index + 3];
-        if (!alpha) continue;
-
-        const rgb = [pixels[index], pixels[index + 1], pixels[index + 2]];
-        const targetKey = pickPaletteTarget(rgb);
-        const target = palette[targetKey];
-
-        if (targetKey === "background") {
-          pixels[index + 3] = 0;
-          continue;
+    return loadLogoSource(source)
+      .then((bitmap) => {
+        const { width, height } = getLogoRenderSize(image, bitmap);
+        return renderRecoloredLogo(source, palette, width, height);
+      })
+      .then((renderedSource) => {
+        if (image.src !== renderedSource) {
+          image.src = renderedSource;
         }
-
-        pixels[index] = target[0];
-        pixels[index + 1] = target[1];
-        pixels[index + 2] = target[2];
-      }
-
-      context.putImageData(frame, 0, 0);
-      image.src = canvas.toDataURL("image/png");
-    };
-    bitmap.src = source;
+      })
+      .catch((error) => {
+        console.error("Error recoloreando logo", error);
+      });
   }
 
   function syncThemeLogos() {
-    const palette = getThemePalette();
+    const palette = getLogoPalette();
     document.querySelectorAll("[data-theme-logo]").forEach((image) => {
       recolorLogoImage(image, palette);
     });
+  }
+
+  function finalizeThemeApplication(sequence) {
+    if (sequence !== themeApplySequence) return;
+    setThemeModeFromComputed();
+    syncThemeContrastTokens();
+    syncThemeLogos();
   }
 
   function getThemeLink() {
@@ -190,14 +626,26 @@
     if (!theme || !theme.css || !theme.id) return;
     const cssPath = `${basePath.replace(/\/$/, "")}/${theme.css}`;
     const link = getThemeLink();
-    link.href = cssPath;
-    document.documentElement.setAttribute("data-theme", theme.id);
-    link.onload = function () {
-      setThemeModeFromComputed();
-      syncThemeLogos();
+    const sequence = ++themeApplySequence;
+    const currentHref = link.href;
+    if (currentHref && currentHref === new URL(cssPath, window.location.href).href) {
+      document.documentElement.setAttribute("data-theme", theme.id);
+      finalizeThemeApplication(sequence);
+      return;
+    }
+
+    let fallbackTimer = null;
+    const handleLoad = function () {
+      if (fallbackTimer !== null) {
+        clearTimeout(fallbackTimer);
+      }
+      finalizeThemeApplication(sequence);
     };
-    // Fallback for cases where stylesheet is already cached and applied quickly.
-    requestAnimationFrame(setThemeModeFromComputed);
+
+    link.onload = handleLoad;
+    document.documentElement.setAttribute("data-theme", theme.id);
+    link.href = cssPath;
+    fallbackTimer = window.setTimeout(handleLoad, 250);
   }
 
   async function loadJson(path) {

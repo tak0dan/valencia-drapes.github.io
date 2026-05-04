@@ -12,6 +12,6 @@
   --article-image: url("../assets/article-night.svg");
   --font-main: "Space Grotesk", "Segoe UI", sans-serif;
   --font-display: "Space Grotesk", "Segoe UI", sans-serif;
-  --panel-radius: 24px;
-  --card-radius: 18px;
+  --panel-radius: 19px;
+  --card-radius: 14px;
 }

@@ -12,6 +12,6 @@
   --article-image: url("assets/article-pastel-night.svg");
   --font-main: "Nunito Sans", "Segoe UI", Tahoma, sans-serif;
   --font-display: "Cormorant Garamond", "Times New Roman", serif;
-  --panel-radius: 20px;
-  --card-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 13px;
 }

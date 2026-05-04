@@ -12,8 +12,8 @@
   --article-image: url("assets/article-scene.svg");
   --font-main: "Manrope", "Segoe UI", Tahoma, sans-serif;
   --font-display: "Manrope", "Segoe UI", Tahoma, sans-serif;
-  --panel-radius: 20px;
-  --card-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 13px;
 
   /* Semantic tokens for theme-driven page skins */
   --color-page-start: color-mix(in srgb, var(--bg) 88%, var(--surface) 12%);
@@ -224,7 +224,7 @@ a {
   width: 46px;
   height: 46px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 6px;
   border: 1px solid var(--edge);
 }
 
@@ -239,7 +239,7 @@ a {
   text-decoration: none;
   color: var(--secondary);
   padding: 6px 8px;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .main-nav a:hover {
@@ -255,7 +255,7 @@ a {
   cursor: pointer;
   color: var(--secondary);
   padding: 6px 8px;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .nav-dropdown summary::-webkit-details-marker {
@@ -278,7 +278,7 @@ a {
   gap: 2px;
   padding: 10px;
   border: 1px solid var(--edge);
-  border-radius: 14px;
+  border-radius: 11px;
   background: color-mix(in srgb, var(--surface) 94%, transparent);
   backdrop-filter: blur(8px);
   z-index: 50;
@@ -291,7 +291,7 @@ a {
 .dropdown-menu a {
   text-decoration: none;
   color: var(--secondary);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 6px 10px;
   line-height: 1.35;
 }
@@ -320,7 +320,7 @@ a {
 
 .theme-tools select {
   border: 1px solid var(--edge);
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 6px 10px;
   background: var(--surface);
   color: var(--secondary);
@@ -640,7 +640,7 @@ a {
 .map {
   min-height: 120px;
   border: 1px dashed var(--edge);
-  border-radius: 10px;
+  border-radius: 6px;
   background: color-mix(in srgb, var(--surface) 54%, transparent);
 }
 
@@ -834,7 +834,7 @@ body.reviews-page .service-article {
 .reviews-lane {
   overflow: hidden;
   border: 1px solid var(--edge);
-  border-radius: 14px;
+  border-radius: 11px;
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   padding: 10px 0;
   mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
@@ -906,7 +906,7 @@ body.reviews-page .service-article {
 
 .reviews-map-card {
   border: 1px solid var(--edge);
-  border-radius: 14px;
+  border-radius: 11px;
   background: var(--surface);
   padding: 12px;
   display: grid;
@@ -917,7 +917,7 @@ body.reviews-page .service-article {
   width: 100%;
   min-height: 245px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .map-link-btn {
