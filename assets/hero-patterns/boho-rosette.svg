@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none">
+  <defs>
+    <g id="rosette-medallion">
+      <polygon points="0,-152 42,-42 152,0 42,42 0,152 -42,42 -152,0 -42,-42" fill="#b44a2f"/>
+      <polygon points="0,-92 26,-26 92,0 26,26 0,92 -26,26 -92,0 -26,-26" fill="#f1e7d1"/>
+      <circle cx="0" cy="0" r="42" fill="#d89d3f"/>
+      <path d="M0-220V220M-220 0H220M-156-156L156 156M156-156L-156 156" stroke="#6d2f45" stroke-width="18" stroke-linecap="round"/>
+      <circle cx="0" cy="-220" r="18" fill="#d89d3f"/>
+      <circle cx="220" cy="0" r="18" fill="#d89d3f"/>
+      <circle cx="0" cy="220" r="18" fill="#d89d3f"/>
+      <circle cx="-220" cy="0" r="18" fill="#d89d3f"/>
+    </g>
+    <g id="petal-cross">
+      <path d="M0-72C28-72 54-46 54-18S28 36 0 36-54 10-54-18-28-72 0-72Z" fill="#b44a2f"/>
+      <path d="M72 0C72 28 46 54 18 54S-36 28-36 0-10-54 18-54 72-28 72 0Z" fill="#b44a2f"/>
+      <path d="M0 72C-28 72-54 46-54 18S-28-36 0-36 54-10 54 18 28 72 0 72Z" fill="#b44a2f"/>
+      <path d="M-72 0C-72-28-46-54-18-54S36-28 36 0 10 54-18 54-72 28-72 0Z" fill="#b44a2f"/>
+      <circle cx="0" cy="0" r="20" fill="#d89d3f"/>
+      <path d="M0-98V98M-98 0H98" stroke="#6d2f45" stroke-width="12" stroke-linecap="round"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1080" fill="#f1e7d1"/>
+  <g opacity="0.96">
+    <use href="#rosette-medallion" x="0" y="0"/>
+    <use href="#rosette-medallion" x="540" y="0"/>
+    <use href="#rosette-medallion" x="1080" y="0"/>
+    <use href="#rosette-medallion" x="0" y="540"/>
+    <use href="#rosette-medallion" x="540" y="540"/>
+    <use href="#rosette-medallion" x="1080" y="540"/>
+    <use href="#rosette-medallion" x="0" y="1080"/>
+    <use href="#rosette-medallion" x="540" y="1080"/>
+    <use href="#rosette-medallion" x="1080" y="1080"/>
+  </g>
+  <g>
+    <use href="#petal-cross" x="270" y="270"/>
+    <use href="#petal-cross" x="810" y="270"/>
+    <use href="#petal-cross" x="270" y="810"/>
+    <use href="#petal-cross" x="810" y="810"/>
+  </g>
+</svg>

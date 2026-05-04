@@ -9,9 +9,11 @@
   --logo-strip-bg: #1b161e;
   --edge: rgba(89, 29, 39, 0.3);
   --hero-image: url("../assets/hero-night.svg");
+  --hero-pattern-image: url("../assets/hero-patterns/boho-rosette.svg");
   --article-image: url("../assets/article-night.svg");
   --font-main: "Space Grotesk", "Segoe UI", sans-serif;
   --font-display: "Manrope", "Segoe UI", sans-serif;
   --panel-radius: 19px;
   --card-radius: 14px;
+  --tile-font: "Satisfy", cursive;
 }

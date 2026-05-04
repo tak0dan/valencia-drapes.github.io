@@ -9,21 +9,11 @@
   --logo-strip-bg: #f7f4ef;
   --edge: rgba(47, 49, 54, 0.16);
   --hero-image: url("../assets/hero-scene.svg");
+  --hero-pattern-image: url("../assets/hero-patterns/boho-rosette.svg");
   --article-image: url("../assets/article-scene.svg");
   --font-main: "Manrope", "Segoe UI", Tahoma, sans-serif;
   --font-display: "Merriweather", "Georgia", serif;
   --panel-radius: 16px;
   --card-radius: 13px;
-}
-
-:root[data-theme-mode="dark"] {
-  --primary: #f08e62;
-  --secondary: #e8e2db;
-  --accent: #f08e62;
-  --bg: #141416;
-  --surface: #1d1e22;
-  --surface-alt: #26272d;
-  --panel-bg: #1f2126;
-  --logo-strip-bg: #1a1b1f;
-  --edge: rgba(255, 255, 255, 0.16);
+  --tile-border-color: var(--primary);
 }

@@ -9,6 +9,7 @@
   --logo-strip-bg: #151825;
   --edge: rgba(233, 93, 23, 0.3);
   --hero-image: url("../assets/hero-night.svg");
+  --hero-pattern-image: url("../assets/hero-patterns/boho-zigzag.svg");
   --article-image: url("../assets/article-night.svg");
   --font-main: "Space Grotesk", "Segoe UI", sans-serif;
   --font-display: "Manrope", "Segoe UI", sans-serif;

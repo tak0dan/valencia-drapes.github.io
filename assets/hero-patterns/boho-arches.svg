@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none">
+  <defs>
+    <g id="arch-panel">
+      <path d="M-132 132V12C-132-96 -44-180 0-180S132-96 132 12V132H64V18C64-30 28-72 0-72S-64-30-64 18V132Z" fill="#b44a2f"/>
+      <path d="M-132 132V12C-132-96 -44-180 0-180S132-96 132 12V132H64V18C64-30 28-72 0-72S-64-30-64 18V132Z" stroke="#6d2f45" stroke-width="18" stroke-linejoin="round"/>
+      <polygon points="0,-222 54,-168 0,-114 -54,-168" fill="#d89d3f"/>
+      <rect x="-20" y="-26" width="40" height="158" rx="12" fill="#f1e7d1"/>
+      <path d="M-184 132H184" stroke="#6d2f45" stroke-width="16" stroke-linecap="round"/>
+    </g>
+    <g id="minor-diamond">
+      <polygon points="0,-42 42,0 0,42 -42,0" fill="#d89d3f"/>
+      <polygon points="0,-20 20,0 0,20 -20,0" fill="#f1e7d1"/>
+      <path d="M-68 0H68M0-68V68" stroke="#6d2f45" stroke-width="12" stroke-linecap="round"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1080" fill="#f1e7d1"/>
+  <path d="M0 270H1080M0 810H1080M270 0V1080M810 0V1080" stroke="#6d2f45" stroke-width="12" opacity="0.42"/>
+  <g>
+    <use href="#arch-panel" x="0" y="180"/>
+    <use href="#arch-panel" x="360" y="180"/>
+    <use href="#arch-panel" x="720" y="180"/>
+    <use href="#arch-panel" x="1080" y="180"/>
+    <use href="#arch-panel" x="0" y="540"/>
+    <use href="#arch-panel" x="360" y="540"/>
+    <use href="#arch-panel" x="720" y="540"/>
+    <use href="#arch-panel" x="1080" y="540"/>
+    <use href="#arch-panel" x="0" y="900"/>
+    <use href="#arch-panel" x="360" y="900"/>
+    <use href="#arch-panel" x="720" y="900"/>
+    <use href="#arch-panel" x="1080" y="900"/>
+  </g>
+  <g>
+    <use href="#minor-diamond" x="180" y="0"/>
+    <use href="#minor-diamond" x="540" y="0"/>
+    <use href="#minor-diamond" x="900" y="0"/>
+    <use href="#minor-diamond" x="180" y="360"/>
+    <use href="#minor-diamond" x="540" y="360"/>
+    <use href="#minor-diamond" x="900" y="360"/>
+    <use href="#minor-diamond" x="180" y="720"/>
+    <use href="#minor-diamond" x="540" y="720"/>
+    <use href="#minor-diamond" x="900" y="720"/>
+    <use href="#minor-diamond" x="180" y="1080"/>
+    <use href="#minor-diamond" x="540" y="1080"/>
+    <use href="#minor-diamond" x="900" y="1080"/>
+  </g>
+</svg>

@@ -9,6 +9,7 @@
   --logo-strip-bg: #e5e2d8;
   --edge: rgba(61, 42, 34, 0.16);
   --hero-image: url("assets/hero-scene.svg");
+  --hero-pattern-image: none;
   --article-image: url("assets/article-scene.svg");
   --font-main: "Manrope", "Segoe UI", Tahoma, sans-serif;
   --font-display: "Manrope", "Segoe UI", Tahoma, sans-serif;
@@ -32,6 +33,13 @@
   --color-card-bg-alt: color-mix(in srgb, var(--surface) 78%, var(--surface-alt) 22%);
   --color-footer-bg: color-mix(in srgb, var(--secondary) 90%, black 10%);
   --color-success: #25d366;
+  --tile-gap: 0px;
+  --tile-radius: 0px;
+  --tile-hover-scale: 1.06;
+  --tile-hover-lift: 0px;
+  --tile-menu-gap: 0px;
+  --tile-menu-padding: 0px;
+  --tile-menu-radius: 6px;
 }
 
 :root[data-theme-mode="dark"] {
@@ -53,6 +61,16 @@
 
 :root[data-theme-mode="light"] {
   --color-on-dark: #f6f6f6;
+}
+
+:root[data-theme-profile="premium"] {
+  --tile-gap: 14px;
+  --tile-radius: max(var(--card-radius), 18px);
+  --tile-hover-scale: 1.04;
+  --tile-hover-lift: 0px;
+  --tile-menu-gap: 6px;
+  --tile-menu-padding: 10px;
+  --tile-menu-radius: calc(var(--tile-radius) + 2px);
 }
 
 *, *::before, *::after {
@@ -221,11 +239,12 @@ a {
 }
 
 .logo-image {
-  width: 46px;
+  width: auto;
   height: 46px;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid var(--edge);
+  max-width: 46px;
+  object-fit: contain;
+  border-radius: 0;
+  border: none;
 }
 
 .main-nav {

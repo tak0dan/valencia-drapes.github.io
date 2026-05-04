@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none">
+  <defs>
+    <g id="diamond-medallion">
+      <polygon points="0,-126 126,0 0,126 -126,0" fill="#b44a2f"/>
+      <polygon points="0,-70 70,0 0,70 -70,0" fill="#f1e7d1"/>
+      <path d="M-176 0H176M0-176V176M-124-124L124 124M124-124L-124 124" stroke="#6d2f45" stroke-width="18" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="26" fill="#d89d3f"/>
+      <circle cx="0" cy="-126" r="18" fill="#d89d3f"/>
+      <circle cx="126" cy="0" r="18" fill="#d89d3f"/>
+      <circle cx="0" cy="126" r="18" fill="#d89d3f"/>
+      <circle cx="-126" cy="0" r="18" fill="#d89d3f"/>
+    </g>
+    <g id="step-cross">
+      <path d="M-54-18H-18V-54H18V-18H54V18H18V54H-18V18H-54Z" fill="#6d2f45"/>
+      <rect x="-18" y="-18" width="36" height="36" fill="#d89d3f"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1080" fill="#f1e7d1"/>
+  <path d="M0 180H1080M0 540H1080M0 900H1080M180 0V1080M540 0V1080M900 0V1080" stroke="#6d2f45" stroke-width="12" opacity="0.5"/>
+  <g opacity="0.96">
+    <use href="#diamond-medallion" x="0" y="0"/>
+    <use href="#diamond-medallion" x="360" y="0"/>
+    <use href="#diamond-medallion" x="720" y="0"/>
+    <use href="#diamond-medallion" x="1080" y="0"/>
+    <use href="#diamond-medallion" x="0" y="360"/>
+    <use href="#diamond-medallion" x="360" y="360"/>
+    <use href="#diamond-medallion" x="720" y="360"/>
+    <use href="#diamond-medallion" x="1080" y="360"/>
+    <use href="#diamond-medallion" x="0" y="720"/>
+    <use href="#diamond-medallion" x="360" y="720"/>
+    <use href="#diamond-medallion" x="720" y="720"/>
+    <use href="#diamond-medallion" x="1080" y="720"/>
+    <use href="#diamond-medallion" x="0" y="1080"/>
+    <use href="#diamond-medallion" x="360" y="1080"/>
+    <use href="#diamond-medallion" x="720" y="1080"/>
+    <use href="#diamond-medallion" x="1080" y="1080"/>
+  </g>
+  <g>
+    <use href="#step-cross" x="180" y="180"/>
+    <use href="#step-cross" x="540" y="180"/>
+    <use href="#step-cross" x="900" y="180"/>
+    <use href="#step-cross" x="180" y="540"/>
+    <use href="#step-cross" x="540" y="540"/>
+    <use href="#step-cross" x="900" y="540"/>
+    <use href="#step-cross" x="180" y="900"/>
+    <use href="#step-cross" x="540" y="900"/>
+    <use href="#step-cross" x="900" y="900"/>
+  </g>
+</svg>

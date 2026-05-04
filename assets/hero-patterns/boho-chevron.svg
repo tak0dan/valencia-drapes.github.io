@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none">
+  <defs>
+    <g id="vyshyvanka-x">
+      <path d="M-148-148L148 148M148-148L-148 148" stroke="#6d2f45" stroke-width="22" stroke-linecap="round"/>
+      <path d="M-120-120L120 120M120-120L-120 120" stroke="#b44a2f" stroke-width="46" stroke-linecap="round"/>
+      <path d="M-76-76L76 76M76-76L-76 76" stroke="#f1e7d1" stroke-width="20" stroke-linecap="round"/>
+      <polygon points="0,-62 62,0 0,62 -62,0" fill="#d89d3f"/>
+      <polygon points="0,-24 24,0 0,24 -24,0" fill="#f1e7d1"/>
+    </g>
+    <g id="chevron-band">
+      <path d="M-180 0-108-72-36 0 36-72 108 0 180-72" stroke="#b44a2f" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M-180 0-108 72-36 0 36 72 108 0 180 72" stroke="#6d2f45" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </defs>
+  <rect width="1080" height="1080" fill="#f1e7d1"/>
+  <g>
+    <use href="#vyshyvanka-x" x="180" y="180"/>
+    <use href="#vyshyvanka-x" x="540" y="180"/>
+    <use href="#vyshyvanka-x" x="900" y="180"/>
+    <use href="#vyshyvanka-x" x="180" y="540"/>
+    <use href="#vyshyvanka-x" x="540" y="540"/>
+    <use href="#vyshyvanka-x" x="900" y="540"/>
+    <use href="#vyshyvanka-x" x="180" y="900"/>
+    <use href="#vyshyvanka-x" x="540" y="900"/>
+    <use href="#vyshyvanka-x" x="900" y="900"/>
+  </g>
+  <g opacity="0.84">
+    <use href="#chevron-band" x="180" y="0"/>
+    <use href="#chevron-band" x="540" y="0"/>
+    <use href="#chevron-band" x="900" y="0"/>
+    <use href="#chevron-band" x="180" y="360"/>
+    <use href="#chevron-band" x="540" y="360"/>
+    <use href="#chevron-band" x="900" y="360"/>
+    <use href="#chevron-band" x="180" y="720"/>
+    <use href="#chevron-band" x="540" y="720"/>
+    <use href="#chevron-band" x="900" y="720"/>
+    <use href="#chevron-band" x="180" y="1080"/>
+    <use href="#chevron-band" x="540" y="1080"/>
+    <use href="#chevron-band" x="900" y="1080"/>
+  </g>
+</svg>

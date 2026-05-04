@@ -9,9 +9,11 @@
   --logo-strip-bg: #28193c;
   --edge: rgba(176, 106, 179, 0.34);
   --hero-image: url("../assets/hero-pastel-night.svg");
+  --hero-pattern-image: url("../assets/hero-patterns/boho-rosette.svg");
   --article-image: url("../assets/article-pastel-night.svg");
   --font-main: "Plus Jakarta Sans", "Segoe UI", sans-serif;
   --font-display: "Sora", "Segoe UI", sans-serif;
   --panel-radius: 21px;
   --card-radius: 16px;
+  --tile-font: "Fredericka the Great", serif;
 }

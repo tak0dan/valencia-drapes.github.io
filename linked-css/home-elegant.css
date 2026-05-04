@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Great+Vibes&family=Merriweather:wght@700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Great+Vibes&family=Merriweather:wght@700;900&family=Satisfy&family=Fredericka+the+Great&family=Abril+Fatface&display=swap");
 
 body.home-elegant {
   --top-header-h: 42px;
@@ -14,7 +14,29 @@ body.home-elegant {
   --brand-base: var(--logo-strip-bg);
   --surface-strong: var(--surface);
   --on-dark: var(--color-on-dark);
+  --tile-surface: color-mix(in srgb, var(--color-card-bg) 96%, var(--surface) 4%);
+  --tile-surface-alt: color-mix(in srgb, var(--color-card-bg) 84%, var(--bg) 16%);
+  --tile-rest-ink: var(--color-text-on-surface, var(--ink));
+  --tile-rest-copy: var(--color-text-soft);
+  --tile-hover-ink: var(--color-on-dark);
+  --tile-overlay-color: var(--tile-surface);
+  --tile-overlay-opacity: 1;
+  --tile-media-rest-opacity: 0;
+  --tile-media-rest-filter: saturate(0.94) contrast(1.08);
+  --tile-vignette-warm: rgba(233, 125, 68, 0.005);
+  --tile-vignette-hot: rgba(183, 58, 35, 0.003);
+  --tile-font: var(--font-display);
+  --tile-border-color: var(--accent);
+  --hero-pattern-size: 540px 540px;
+  --hero-pattern-opacity: 0.34;
   background: linear-gradient(180deg, var(--color-page-start) 0%, var(--color-page-mid) 45%, var(--color-page-end) 100%);
+}
+
+:root:not([data-theme-profile="premium"]) body.home-elegant {
+  --tile-overlay-color: color-mix(in srgb, var(--bg) 80%, transparent);
+  --tile-media-rest-opacity: 1;
+  --tile-media-rest-filter: saturate(0.8) brightness(0.72) contrast(0.92);
+  --tile-font: "Great Vibes", "Brush Script MT", cursive;
 }
 
 .home-elegant .page-shell {
@@ -197,11 +219,11 @@ body.brand-docked .home-elegant .header-brand-dock {
   background: var(--surface-strong);
   border: 1px solid var(--color-border-medium);
   box-shadow: var(--panel-shadow);
-  border-radius: 14px;
-  padding: 10px;
+  border-radius: var(--tile-menu-radius);
+  padding: var(--tile-menu-padding);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--tile-menu-gap);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -220,15 +242,19 @@ body.brand-docked .home-elegant .header-brand-dock {
 }
 
 .home-elegant .dropdown-menu a {
+  display: block;
   text-decoration: none;
   color: var(--ink);
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: var(--tile-radius);
   font-size: 0.93rem;
+  background: linear-gradient(160deg, var(--tile-surface) 0%, var(--tile-surface-alt) 100%);
+  transition: background 0.14s cubic-bezier(0.22, 1, 0.36, 1), color 0.14s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .home-elegant .dropdown-menu a:hover {
-  background: rgba(252, 123, 30, 0.1);
+  background: linear-gradient(135deg, var(--color-accent-bg) 0%, var(--color-accent-bg-strong) 100%);
+  color: var(--color-on-accent);
 }
 
 .home-elegant .dropdown-menu .dropdown-accent {
@@ -332,12 +358,43 @@ body.brand-docked .home-elegant .header-brand-dock {
 }
 
 .home-elegant .hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   width: 100%;
   padding: clamp(44px, 8vw, 82px) 0 clamp(38px, 6vw, 62px);
   background:
-    linear-gradient(120deg, rgba(28, 28, 28, 0.74), rgba(42, 42, 42, 0.62)),
+    linear-gradient(
+      118deg,
+      color-mix(in srgb, var(--primary) 28%, rgba(10, 10, 12, 0.56)),
+      color-mix(in srgb, var(--accent) 24%, rgba(12, 12, 14, 0.52))
+    ),
+    linear-gradient(180deg, color-mix(in srgb, var(--edge) 75%, transparent), transparent 62%),
     var(--home-hero-photo) center/cover no-repeat;
   color: var(--on-dark);
+}
+
+.home-elegant .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--hero-pattern-opacity);
+  background-image:
+    var(--hero-pattern-image),
+    radial-gradient(circle at 20% 22%, color-mix(in srgb, var(--primary) 24%, transparent), transparent 48%),
+    radial-gradient(circle at 82% 78%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 52%),
+    linear-gradient(160deg, color-mix(in srgb, var(--edge) 88%, transparent), transparent 70%);
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-size: var(--hero-pattern-size), cover, cover, cover;
+  background-position: center top, center center, center center, center center;
+  filter: saturate(1.02) contrast(1.03);
+}
+
+.home-elegant .hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .home-elegant .hero h1 {
@@ -414,8 +471,21 @@ body.brand-docked .home-elegant .header-brand-dock {
 
 :root[data-theme-mode="dark"] .home-elegant .hero {
   background:
-    linear-gradient(120deg, rgba(10, 10, 14, 0.84), rgba(10, 10, 14, 0.68)),
+    linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--primary) 16%, rgba(6, 6, 8, 0.88)),
+      color-mix(in srgb, var(--accent) 14%, rgba(6, 6, 8, 0.78))
+    ),
+    linear-gradient(180deg, color-mix(in srgb, var(--edge) 78%, rgba(0, 0, 0, 0.38)), transparent 64%),
     var(--home-hero-photo) center/cover no-repeat;
+}
+
+:root[data-theme-mode="dark"] body.home-elegant {
+  --hero-pattern-opacity: 0.42;
+}
+
+:root[data-theme-profile="premium"] body.home-elegant {
+  --hero-pattern-opacity: 0.28;
 }
 
 :root[data-theme-mode="dark"] .home-elegant .hero p,
@@ -630,39 +700,46 @@ body.brand-docked .home-elegant .header-brand-dock {
 
 .home-elegant .products-grid {
   display: grid;
-  gap: 14px;
+  gap: var(--tile-gap);
   grid-template-columns: repeat(4, minmax(0, 1fr));
   padding-bottom: 40px;
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .home-elegant .product-card {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
   min-height: 220px;
-  border-radius: 14px;
-  border: 1px solid var(--color-border-soft);
+  border-radius: var(--tile-radius);
+  border: 1px solid rgba(0, 0, 0, 0.45);
   text-decoration: none;
   color: var(--on-dark);
-  background: linear-gradient(150deg, var(--color-card-bg) 0%, var(--color-card-bg-alt) 100%);
+  background: transparent;
   display: grid;
-  align-items: end;
-  text-align: left;
-  padding: 14px;
+  align-items: stretch;
+  text-align: center;
+  padding: 0;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .home-elegant .product-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(8, 8, 8, 0.08) 10%, rgba(8, 8, 8, 0.76) 100%);
+  z-index: 2;
+  background: color-mix(in srgb, var(--bg) 30%, transparent);
   pointer-events: none;
 }
 
 .home-elegant .product-card-media {
   position: absolute;
   inset: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -670,14 +747,22 @@ body.brand-docked .home-elegant .header-brand-dock {
 }
 
 .home-elegant .product-card:hover {
-  transform: translateY(-4px);
+  transform: scale(1.06);
+  border-color: var(--tile-border-color);
   box-shadow: 0 15px 28px rgba(0, 0, 0, 0.12);
 }
 
 .home-elegant .product-card h3 {
-  margin: 0 0 6px;
-  color: var(--on-dark);
-  font-size: 1rem;
+  margin: 0;
+  color: var(--primary);
+  font-family: var(--tile-font);
+  font-size: clamp(1.5rem, 2.5vw, 3rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  line-height: 1.1;
 }
 
 .home-elegant .product-card p {
@@ -685,16 +770,18 @@ body.brand-docked .home-elegant .header-brand-dock {
   color: color-mix(in srgb, var(--on-dark) 92%, transparent);
   line-height: 1.5;
   font-size: 0.86rem;
+  text-align: center;
 }
 
 .home-elegant .product-card-copy {
-  position: relative;
-  z-index: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
   display: grid;
-  gap: 0;
+  grid-template-rows: 1fr auto;
+  align-items: center;
   padding: 14px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(8, 8, 8, 0.16), rgba(8, 8, 8, 0.38));
+  background: none;
 }
 
 .home-elegant .product-card.featured {
@@ -704,6 +791,103 @@ body.brand-docked .home-elegant .header-brand-dock {
 .home-elegant .product-card.featured h3,
 .home-elegant .product-card.featured p {
   color: var(--on-dark);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-elegant .product-card {
+    align-items: stretch;
+    color: var(--tile-rest-ink);
+    background: transparent;
+    border-color: rgba(0, 0, 0, 0.45);
+    transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.14s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .home-elegant .product-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--tile-overlay-color);
+    opacity: var(--tile-overlay-opacity);
+    transition: opacity 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .home-elegant .product-card::after {
+    z-index: 3;
+    background:
+      linear-gradient(180deg, rgba(8, 8, 8, 0.12) 12%, rgba(8, 8, 8, 0.82) 100%),
+      radial-gradient(circle at 14% 14%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 40%),
+      radial-gradient(circle at 86% 84%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 48%);
+    opacity: 0;
+    transition: opacity 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .home-elegant .product-card-media {
+    opacity: var(--tile-media-rest-opacity);
+    transform: scale(1);
+    filter: var(--tile-media-rest-filter);
+    transition: opacity 0.14s linear, transform 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .home-elegant .product-card-copy {
+    z-index: 4;
+    padding: 14px;
+    background: none;
+    transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .home-elegant .product-card h3,
+  .home-elegant .product-card.featured h3 {
+    color: var(--tile-rest-ink);
+    font-family: var(--tile-font);
+    font-size: clamp(1.5rem, 2.5vw, 3rem);
+    font-weight: 400;
+    text-align: center;
+    align-self: center;
+    justify-self: center;
+    transition: color 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .home-elegant .product-card p,
+  .home-elegant .product-card.featured p {
+    color: var(--tile-rest-copy);
+    text-align: center;
+    transition: color 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .home-elegant .product-card:hover,
+  .home-elegant .product-card:focus-visible {
+    transform: scale(var(--tile-hover-scale));
+    border-color: var(--tile-border-color);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.16);
+    z-index: 3;
+  }
+
+  .home-elegant .product-card:hover::before,
+  .home-elegant .product-card:focus-visible::before {
+    opacity: 0;
+  }
+
+  .home-elegant .product-card:hover::after,
+  .home-elegant .product-card:focus-visible::after {
+    opacity: 1;
+  }
+
+  .home-elegant .product-card:hover .product-card-media,
+  .home-elegant .product-card:focus-visible .product-card-media {
+    opacity: 1;
+    transform: scale(1.08);
+    filter: saturate(1.02) contrast(1.04);
+  }
+
+  .home-elegant .product-card:hover h3,
+  .home-elegant .product-card:hover p,
+  .home-elegant .product-card:focus-visible h3,
+  .home-elegant .product-card:focus-visible p {
+    color: var(--tile-hover-ink);
+  }
 }
 
 .home-elegant .product-card-compact {

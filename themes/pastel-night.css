@@ -9,21 +9,26 @@
   --logo-strip-bg: #241f43;
   --edge: rgba(255, 179, 138, 0.32);
   --hero-image: url("../assets/hero-pastel-night.svg");
+  --hero-pattern-image: url("../assets/hero-patterns/boho-rosette.svg");
   --article-image: url("../assets/article-pastel-night.svg");
   --font-main: "Plus Jakarta Sans", "Segoe UI", sans-serif;
   --font-display: "Sora", "Segoe UI", sans-serif;
   --panel-radius: 22px;
   --card-radius: 18px;
+  --tile-font: "Satisfy", cursive;
 }
 
 body {
   letter-spacing: 0.01em;
+  --tile-font: "Satisfy", cursive;
 }
 
 .hero-panel {
   backdrop-filter: blur(1px);
+  --tile-font: "Satisfy", cursive;
 }
 
 .card {
   border-style: solid;
+  --tile-font: "Satisfy", cursive;
 }

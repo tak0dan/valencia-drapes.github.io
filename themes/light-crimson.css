@@ -9,9 +9,12 @@
   --logo-strip-bg: #fef1f4;
   --edge: rgba(123, 30, 52, 0.22);
   --hero-image: url("../assets/hero-scene.svg");
+  --hero-pattern-image: url("../assets/hero-patterns/boho-zigzag.svg");
   --article-image: url("../assets/article-scene.svg");
   --font-main: "Manrope", "Segoe UI", sans-serif;
   --font-display: "Sora", "Segoe UI", sans-serif;
   --panel-radius: 16px;
   --card-radius: 13px;
+  --tile-font: "Satisfy", cursive;
+  --tile-border-color: var(--primary);
 }

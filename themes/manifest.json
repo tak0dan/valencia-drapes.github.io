@@ -4,7 +4,8 @@
     {
       "id": "ingama-brand",
       "label": "Ingama Brand",
-      "css": "ingama-brand.css"
+      "css": "ingama-brand.css",
+      "mode": "light"
     },
     {
       "id": "linen-craft",

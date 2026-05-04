@@ -3,10 +3,38 @@
   const storageVersionKey = "cortinas-theme-version";
   const storageVersion = "2";
   const styleId = "dynamic-theme-style";
-  const maxLogoDevicePixelRatio = 2;
+  const fastLogoDevicePixelRatio = 1.25;
+  const sharpLogoDevicePixelRatio = 3;
   const logoSourceCache = new Map();
   const logoRenderCache = new Map();
+  const svgSourceCache = new Map();
   let themeApplySequence = 0;
+  const legacyBrandLogoPath = "Assets-images/images-placeholders/logo.jpeg";
+  const preferredBrandLogoPath = "Assets-images/images-placeholders/logo-ingama.svg";
+  const brandLogoAccentHex = "#8a6c26";
+  const brandLogoTextHex = "#473f3c";
+  const heroPatternBackgroundHex = "#f1e7d1";
+  const heroPatternMainHex = "#b44a2f";
+  const heroPatternSecondaryHex = "#6d2f45";
+  const heroPatternAccentHex = "#d89d3f";
+  const heroPatternThemes = {
+    zigzag: {
+      file: "boho-zigzag.svg",
+      size: "540px 540px",
+    },
+    arches: {
+      file: "boho-arches.svg",
+      size: "540px 540px",
+    },
+    chevron: {
+      file: "boho-chevron.svg",
+      size: "540px 540px",
+    },
+    rosette: {
+      file: "boho-rosette.svg",
+      size: "540px 540px",
+    },
+  };
   const originalPalette = {
     background: [251, 247, 235],
     accent: [155, 122, 33],
@@ -186,7 +214,7 @@
     const computed = getComputedStyle(document.documentElement);
     return {
       background: parseColor(computed.getPropertyValue("--logo-strip-bg") || computed.getPropertyValue("--panel-bg")),
-      accent: parseColor(computed.getPropertyValue("--color-logo-mark") || computed.getPropertyValue("--primary")),
+      accent: parseColor(computed.getPropertyValue("--color-accent-bg") || computed.getPropertyValue("--color-logo-mark") || computed.getPropertyValue("--primary")),
       text: parseColor(computed.getPropertyValue("--color-logo-text") || computed.getPropertyValue("--color-text-on-brand") || computed.getPropertyValue("--secondary")),
     };
   }
@@ -195,6 +223,39 @@
     return Object.values(palette)
       .map((value) => value.join(","))
       .join("|");
+  }
+
+  function normalizeLogoSource(source) {
+    if (!source || /^data:/i.test(source)) return source;
+    return source.replace(legacyBrandLogoPath, preferredBrandLogoPath);
+  }
+
+  function resolveThemeSiblingUrl(basePath, siblingPath) {
+    const normalizedBase = String(basePath || "./themes").replace(/\/?$/, "/");
+    return new URL(`../${siblingPath}`, new URL(normalizedBase, window.location.href)).href;
+  }
+
+  function getHeroPatternKey(themeId) {
+    const normalized = String(themeId || "").toLowerCase();
+
+    if (/teal|cyber|monokai|vibrant|prism|cosmic|colorful|tseentch|slaanesh/.test(normalized)) {
+      return "chevron";
+    }
+
+    if (/gruvbox|crimson|khorn|rosewood|velvet|oil|red|domination/.test(normalized)) {
+      return "zigzag";
+    }
+
+    if (/night|dark|mocha|eclipse|lantern|slate|desert/.test(normalized)) {
+      return "arches";
+    }
+
+    return "rosette";
+  }
+
+  function isStaticBrandLogo(source) {
+    const normalized = normalizeLogoSource(source);
+    return typeof normalized === "string" && normalized.includes(preferredBrandLogoPath);
   }
 
   function getThemeSemanticPalette() {
@@ -208,6 +269,9 @@
       primary: parseColor(computed.getPropertyValue("--primary")),
       secondary: parseColor(computed.getPropertyValue("--secondary")),
       accent: parseColor(computed.getPropertyValue("--accent")),
+      edge: parseColor(computed.getPropertyValue("--edge")),
+      accentBg: parseColor(computed.getPropertyValue("--color-accent-bg")),
+      accentBgStrong: parseColor(computed.getPropertyValue("--color-accent-bg-strong")),
       topbarBg: parseColor(computed.getPropertyValue("--color-topbar-bg")),
       footerBg: parseColor(computed.getPropertyValue("--color-footer-bg")),
       success: parseColor(computed.getPropertyValue("--color-success")),
@@ -524,11 +588,28 @@
     return logoSourceCache.get(source);
   }
 
-  function getLogoRenderSize(image, bitmap) {
+  function loadSvgSource(source) {
+    if (!svgSourceCache.has(source)) {
+      svgSourceCache.set(source, fetch(source).then((response) => {
+        if (!response.ok) {
+          throw new Error(`No se pudo cargar el SVG: ${source}`);
+        }
+        return response.text();
+      }));
+    }
+
+    return svgSourceCache.get(source);
+  }
+
+  function loadLogoSvgSource(source) {
+    return loadSvgSource(source);
+  }
+
+  function getLogoRenderSize(image, bitmap, devicePixelRatioCap = sharpLogoDevicePixelRatio) {
     const rect = image.getBoundingClientRect();
     const cssWidth = rect.width || image.clientWidth || image.width || bitmap.naturalWidth;
     const aspectRatio = bitmap.naturalHeight / bitmap.naturalWidth;
-    const dpr = Math.min(window.devicePixelRatio || 1, maxLogoDevicePixelRatio);
+    const dpr = Math.min(window.devicePixelRatio || 1, devicePixelRatioCap);
     const targetWidth = Math.max(1, Math.min(bitmap.naturalWidth, Math.round(cssWidth * dpr)));
     const targetHeight = Math.max(1, Math.min(bitmap.naturalHeight, Math.round(targetWidth * aspectRatio)));
 
@@ -578,16 +659,149 @@
     return logoRenderCache.get(cacheKey);
   }
 
-  function recolorLogoImage(image, palette) {
-    const source = image.dataset.logoSrc || image.getAttribute("src");
+  function renderThemedBrandLogoSvg(source, palette) {
+    const cacheKey = `${source}|svg|${getPaletteSignature(palette)}`;
+    if (!logoRenderCache.has(cacheKey)) {
+      logoRenderCache.set(cacheKey, loadLogoSvgSource(source).then((svg) => {
+        const themedSvg = svg
+          .replace(new RegExp(brandLogoAccentHex, "gi"), rgbToCss(palette.accent))
+          .replace(new RegExp(brandLogoTextHex, "gi"), rgbToCss(palette.text));
+
+        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(themedSvg)}`;
+      }));
+    }
+
+    return logoRenderCache.get(cacheKey);
+  }
+
+  function getHeroPatternPalette() {
+    const palette = getThemeSemanticPalette();
+    const white = [255, 255, 255];
+    const black = [0, 0, 0];
+    const darkMode = getRelativeLuminance(palette.bg) < 0.24;
+    const primaryBase = colorDistance(palette.primary, black) < 12 ? mixColors(palette.bg, white, 0.18) : palette.primary;
+    const accentBase = colorDistance(palette.accent, black) < 12 ? palette.accentBg : palette.accent;
+    const edgeBase = colorDistance(palette.edge, black) < 12 ? mixColors(primaryBase, black, 0.24) : palette.edge;
+
+    return {
+      background: darkMode
+        ? mixColors(primaryBase, edgeBase, 0.68)
+        : mixColors(primaryBase, white, 0.76),
+      main: darkMode
+        ? mixColors(primaryBase, white, 0.16)
+        : mixColors(primaryBase, black, 0.08),
+      secondary: darkMode
+        ? mixColors(edgeBase, white, 0.18)
+        : mixColors(edgeBase, black, 0.04),
+      accent: darkMode
+        ? mixColors(accentBase, white, 0.26)
+        : mixColors(accentBase, white, 0.18),
+    };
+  }
+
+  function renderThemedHeroPatternSvg(source, palette) {
+    const cacheKey = `${source}|hero|${getPaletteSignature(palette)}`;
+    if (!logoRenderCache.has(cacheKey)) {
+      logoRenderCache.set(cacheKey, loadSvgSource(source).then((svg) => {
+        const themedSvg = svg
+          .replace(new RegExp(heroPatternBackgroundHex, "gi"), rgbToCss(palette.background))
+          .replace(new RegExp(heroPatternMainHex, "gi"), rgbToCss(palette.main))
+          .replace(new RegExp(heroPatternSecondaryHex, "gi"), rgbToCss(palette.secondary))
+          .replace(new RegExp(heroPatternAccentHex, "gi"), rgbToCss(palette.accent));
+
+        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(themedSvg)}`;
+      }));
+    }
+
+    return logoRenderCache.get(cacheKey);
+  }
+
+  function setHeroPatternTheme(theme, basePath, sequence = themeApplySequence) {
+    const rootStyle = document.documentElement.style;
+    const key = getHeroPatternKey(theme && theme.id);
+    const pattern = heroPatternThemes[key] || heroPatternThemes.rosette;
+    const url = resolveThemeSiblingUrl(basePath, `assets/hero-patterns/${pattern.file}`);
+
+    rootStyle.setProperty("--hero-pattern-size", pattern.size);
+
+    renderThemedHeroPatternSvg(url, getHeroPatternPalette())
+      .then((renderedSource) => {
+        if (sequence !== themeApplySequence) return;
+        rootStyle.setProperty("--hero-pattern-image", `url("${renderedSource}")`);
+      })
+      .catch((error) => {
+        if (sequence !== themeApplySequence) return;
+        rootStyle.setProperty("--hero-pattern-image", "none");
+        console.error("Error tematizando ornamento del hero", error);
+      });
+  }
+
+  function scheduleLogoSharpenPass(image, source, palette, bitmap, sequence) {
+    const { width, height } = getLogoRenderSize(image, bitmap, sharpLogoDevicePixelRatio);
+    const sharpenKey = `${sequence}|${source}|${getPaletteSignature(palette)}|${width}x${height}`;
+    image.dataset.logoSharpenKey = sharpenKey;
+
+    const schedule = typeof window.requestIdleCallback === "function"
+      ? window.requestIdleCallback.bind(window)
+      : (callback) => window.setTimeout(callback, 48);
+
+    schedule(() => {
+      if (!image.isConnected || sequence !== themeApplySequence || image.dataset.logoSharpenKey !== sharpenKey) {
+        return;
+      }
+
+      renderRecoloredLogo(source, palette, width, height)
+        .then((renderedSource) => {
+          if (!image.isConnected || sequence !== themeApplySequence || image.dataset.logoSharpenKey !== sharpenKey) {
+            return;
+          }
+
+          if (image.src !== renderedSource) {
+            image.src = renderedSource;
+          }
+        })
+        .catch((error) => {
+          console.error("Error afinando logo", error);
+        });
+    });
+  }
+
+  function recolorLogoImage(image, palette, sequence = themeApplySequence) {
+    const source = normalizeLogoSource(image.dataset.logoSrc || image.getAttribute("src"));
     if (!source) return Promise.resolve();
+
+    if (image.dataset.logoSrc !== source) {
+      image.dataset.logoSrc = source;
+    }
+
+    if (isStaticBrandLogo(source)) {
+      return renderThemedBrandLogoSvg(source, palette)
+        .then((renderedSource) => {
+          if (!image.isConnected || sequence !== themeApplySequence) {
+            return;
+          }
+
+          if (image.getAttribute("src") !== renderedSource) {
+            image.setAttribute("src", renderedSource);
+          }
+        })
+        .catch((error) => {
+          console.error("Error tematizando logo vectorial", error);
+        });
+    }
 
     return loadLogoSource(source)
       .then((bitmap) => {
-        const { width, height } = getLogoRenderSize(image, bitmap);
-        return renderRecoloredLogo(source, palette, width, height);
+        const { width, height } = getLogoRenderSize(image, bitmap, fastLogoDevicePixelRatio);
+        const fastRender = renderRecoloredLogo(source, palette, width, height);
+        scheduleLogoSharpenPass(image, source, palette, bitmap, sequence);
+        return fastRender;
       })
       .then((renderedSource) => {
+        if (!image.isConnected || sequence !== themeApplySequence) {
+          return;
+        }
+
         if (image.src !== renderedSource) {
           image.src = renderedSource;
         }
@@ -597,18 +811,19 @@
       });
   }
 
-  function syncThemeLogos() {
+  function syncThemeLogos(sequence = themeApplySequence) {
     const palette = getLogoPalette();
     document.querySelectorAll("[data-theme-logo]").forEach((image) => {
-      recolorLogoImage(image, palette);
+      recolorLogoImage(image, palette, sequence);
     });
   }
 
-  function finalizeThemeApplication(sequence) {
+  function finalizeThemeApplication(sequence, theme, basePath) {
     if (sequence !== themeApplySequence) return;
     setThemeModeFromComputed();
     syncThemeContrastTokens();
-    syncThemeLogos();
+    setHeroPatternTheme(theme, basePath, sequence);
+    syncThemeLogos(sequence);
   }
 
   function getThemeLink() {
@@ -622,15 +837,40 @@
     return link;
   }
 
+  function getThemeProfile(themeId) {
+    if (!themeId) return "standard";
+
+    const normalized = String(themeId).toLowerCase();
+    return /premium|atelier|remembrance/.test(normalized) ? "premium" : "standard";
+  }
+
+  function setThemeProfile(themeId) {
+    document.documentElement.setAttribute("data-theme-profile", getThemeProfile(themeId));
+  }
+
+  function getThemeModeOverride(theme) {
+    if (!theme || typeof theme.mode !== "string") return null;
+
+    const normalized = theme.mode.trim().toLowerCase();
+    return normalized === "light" || normalized === "dark" ? normalized : null;
+  }
+
   function applyTheme(theme, basePath) {
     if (!theme || !theme.css || !theme.id) return;
+    setThemeProfile(theme.id);
+    const modeOverride = getThemeModeOverride(theme);
+    if (modeOverride) {
+      document.documentElement.setAttribute("data-theme-mode", modeOverride);
+    } else {
+      document.documentElement.removeAttribute("data-theme-mode");
+    }
     const cssPath = `${basePath.replace(/\/$/, "")}/${theme.css}`;
     const link = getThemeLink();
     const sequence = ++themeApplySequence;
     const currentHref = link.href;
     if (currentHref && currentHref === new URL(cssPath, window.location.href).href) {
       document.documentElement.setAttribute("data-theme", theme.id);
-      finalizeThemeApplication(sequence);
+      finalizeThemeApplication(sequence, theme, basePath);
       return;
     }
 
@@ -639,7 +879,7 @@
       if (fallbackTimer !== null) {
         clearTimeout(fallbackTimer);
       }
-      finalizeThemeApplication(sequence);
+      finalizeThemeApplication(sequence, theme, basePath);
     };
 
     link.onload = handleLoad;

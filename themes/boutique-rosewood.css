@@ -9,9 +9,12 @@
   --logo-strip-bg: #dfc6c6;
   --edge: rgba(83, 46, 52, 0.2);
   --hero-image: url("assets/hero-pastel-night.svg");
+  --hero-pattern-image: url("../assets/hero-patterns/boho-zigzag.svg");
   --article-image: url("assets/article-pastel-night.svg");
   --font-main: "Nunito Sans", "Segoe UI", Tahoma, sans-serif;
   --font-display: "Cormorant Garamond", "Times New Roman", serif;
   --panel-radius: 16px;
   --card-radius: 13px;
+  --tile-font: "Satisfy", cursive;
+  --tile-border-color: var(--primary);
 }
