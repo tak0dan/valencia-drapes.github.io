@@ -672,9 +672,9 @@ a {
 
 .service-hero {
   position: relative;
-  padding: 44px 0 0;
+  padding: 44px 0 26px;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 76%, transparent) 0%, transparent 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 62%, transparent) 0%, color-mix(in srgb, var(--bg) 18%, transparent) 100%),
     var(--hero-image) center/cover fixed no-repeat;
 }
 
@@ -726,11 +726,11 @@ a {
 
 .service-article {
   position: relative;
-  margin-top: -10px;
-  padding: 86px 0 72px;
+  margin-top: 0;
+  padding: 54px 0 72px;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--panel-bg) 72%, transparent) 0%, color-mix(in srgb, var(--bg) 84%, transparent) 22%, transparent 56%),
-    var(--article-image) center/cover fixed no-repeat;
+    linear-gradient(180deg, color-mix(in srgb, var(--panel-bg) 56%, transparent) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 18%, color-mix(in srgb, var(--bg) 28%, transparent) 52%, transparent 100%),
+    var(--article-image) center center / cover fixed no-repeat;
 }
 
 .article-inner {
@@ -740,6 +740,38 @@ a {
 
 .article-inner .detail-card + .detail-card {
   margin-top: 16px;
+}
+
+.section-intro {
+  margin-top: 0;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--surface) 92%, transparent), color-mix(in srgb, var(--surface-alt) 84%, transparent));
+}
+
+.section-intro h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+}
+
+.section-intro p {
+  margin: 0;
+  line-height: 1.75;
+}
+
+.section-intro p + p {
+  margin-top: 12px;
+}
+
+.post-card {
+  overflow: hidden;
+}
+
+.post-photo {
+  display: block;
+  width: calc(100% + 44px);
+  margin: -22px -22px 18px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: calc(var(--card-radius) - 2px) calc(var(--card-radius) - 2px) 0 0;
 }
 
 body.reviews-page .service-hero {
