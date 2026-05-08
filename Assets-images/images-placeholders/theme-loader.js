@@ -1,6 +1,6 @@
 (function () {
-  const storageKey = "cortinas-theme";
-  const storageVersionKey = "cortinas-theme-version";
+  const storageKeyBase = "cortinas-theme";
+  const storageVersionKeyBase = "cortinas-theme-version";
   const storageVersion = "2";
   const styleId = "dynamic-theme-style";
   const fastLogoDevicePixelRatio = 1.25;
@@ -11,6 +11,7 @@
   let themeApplySequence = 0;
   const legacyBrandLogoPath = "Assets-images/images-placeholders/logo.jpeg";
   const preferredBrandLogoPath = "Assets-images/images-placeholders/logo-ingama.svg";
+  const brandLogoBackgroundHex = "#fbf7eb";
   const brandLogoAccentHex = "#8a6c26";
   const brandLogoTextHex = "#473f3c";
   const heroPatternBackgroundHex = "#f1e7d1";
@@ -213,9 +214,26 @@
   function getLogoPalette() {
     const computed = getComputedStyle(document.documentElement);
     return {
-      background: parseColor(computed.getPropertyValue("--logo-strip-bg") || computed.getPropertyValue("--panel-bg")),
-      accent: parseColor(computed.getPropertyValue("--color-accent-bg") || computed.getPropertyValue("--color-logo-mark") || computed.getPropertyValue("--primary")),
-      text: parseColor(computed.getPropertyValue("--color-logo-text") || computed.getPropertyValue("--color-text-on-brand") || computed.getPropertyValue("--secondary")),
+      background: parseColor(
+        computed.getPropertyValue("--logo-bg")
+          || computed.getPropertyValue("--logo-strip-bg")
+          || computed.getPropertyValue("--bg")
+          || computed.getPropertyValue("--panel-bg")
+      ),
+      accent: parseColor(
+        computed.getPropertyValue("--logo-mark")
+          || computed.getPropertyValue("--primary")
+          || computed.getPropertyValue("--accent")
+          || computed.getPropertyValue("--color-logo-mark")
+          || computed.getPropertyValue("--color-accent-bg")
+      ),
+      text: parseColor(
+        computed.getPropertyValue("--logo-text")
+          || computed.getPropertyValue("--secondary")
+          || computed.getPropertyValue("--primary")
+          || computed.getPropertyValue("--color-logo-text")
+          || computed.getPropertyValue("--color-text-on-brand")
+      ),
     };
   }
 
@@ -233,6 +251,14 @@
   function resolveThemeSiblingUrl(basePath, siblingPath) {
     const normalizedBase = String(basePath || "./themes").replace(/\/?$/, "/");
     return new URL(`../${siblingPath}`, new URL(normalizedBase, window.location.href)).href;
+  }
+
+  function parseCssUrl(cssValue) {
+    if (!cssValue) return null;
+    const normalized = String(cssValue).trim();
+    if (!normalized || normalized === "none") return null;
+    const match = normalized.match(/^url\((['"]?)(.*?)\1\)$/i);
+    return match && match[2] ? match[2] : null;
   }
 
   function getHeroPatternKey(themeId) {
@@ -541,6 +567,9 @@
     rootStyle.setProperty("--color-text-on-brand", rgbToCss(textOnBrand));
     rootStyle.setProperty("--color-logo-text", rgbToCss(logoText));
     rootStyle.setProperty("--color-logo-mark", rgbToCss(logoMark));
+    rootStyle.setProperty("--color-page-start", rgbToCss(palette.bg));
+    rootStyle.setProperty("--color-page-mid", rgbToCss(palette.bg));
+    rootStyle.setProperty("--color-page-end", rgbToCss(palette.bg));
     rootStyle.setProperty("--color-text-strong", rgbToCss(textStrong));
     rootStyle.setProperty("--color-text-soft", rgbToCss(textSoft));
     rootStyle.setProperty("--color-heading", rgbToCss(heading));
@@ -664,6 +693,7 @@
     if (!logoRenderCache.has(cacheKey)) {
       logoRenderCache.set(cacheKey, loadLogoSvgSource(source).then((svg) => {
         const themedSvg = svg
+          .replace(new RegExp(brandLogoBackgroundHex, "gi"), "transparent")
           .replace(new RegExp(brandLogoAccentHex, "gi"), rgbToCss(palette.accent))
           .replace(new RegExp(brandLogoTextHex, "gi"), rgbToCss(palette.text));
 
@@ -718,11 +748,21 @@
 
   function setHeroPatternTheme(theme, basePath, sequence = themeApplySequence) {
     const rootStyle = document.documentElement.style;
-    const key = getHeroPatternKey(theme && theme.id);
-    const pattern = heroPatternThemes[key] || heroPatternThemes.rosette;
-    const url = resolveThemeSiblingUrl(basePath, `assets/hero-patterns/${pattern.file}`);
+    const computed = getComputedStyle(document.documentElement);
+    const configuredPatternUrl = parseCssUrl(computed.getPropertyValue("--hero-pattern-image"));
+    const configuredPatternSize = computed.getPropertyValue("--hero-pattern-size").trim();
 
-    rootStyle.setProperty("--hero-pattern-size", pattern.size);
+    let url = configuredPatternUrl;
+    let patternSize = configuredPatternSize || "540px 540px";
+
+    if (!url) {
+      const key = getHeroPatternKey(theme && theme.id);
+      const pattern = heroPatternThemes[key] || heroPatternThemes.rosette;
+      url = resolveThemeSiblingUrl(basePath, `assets/hero-patterns/${pattern.file}`);
+      patternSize = pattern.size;
+    }
+
+    rootStyle.setProperty("--hero-pattern-size", patternSize);
 
     renderThemedHeroPatternSvg(url, getHeroPatternPalette())
       .then((renderedSource) => {
@@ -822,6 +862,8 @@
     if (sequence !== themeApplySequence) return;
     setThemeModeFromComputed();
     syncThemeContrastTokens();
+    // Clear inline hero pattern style to allow fresh read from new theme CSS
+    document.documentElement.style.removeProperty("--hero-pattern-image");
     setHeroPatternTheme(theme, basePath, sequence);
     syncThemeLogos(sequence);
   }
@@ -900,13 +942,16 @@
     const selector = document.querySelector("[data-theme-selector]");
     if (!selector) return;
 
+    const basePath = document.body.getAttribute("data-themes-base") || "./themes";
+    const manifestPath = `${basePath.replace(/\/$/, "")}/manifest.json`;
+    const manifestUrl = new URL(manifestPath, window.location.href).href;
+    const storageKey = `${storageKeyBase}:${manifestUrl}`;
+    const storageVersionKey = `${storageVersionKeyBase}:${manifestUrl}`;
+
     if (localStorage.getItem(storageVersionKey) !== storageVersion) {
       localStorage.removeItem(storageKey);
       localStorage.setItem(storageVersionKey, storageVersion);
     }
-
-    const basePath = document.body.getAttribute("data-themes-base") || "./themes";
-    const manifestPath = `${basePath.replace(/\/$/, "")}/manifest.json`;
 
     try {
       const manifest = await loadJson(manifestPath);
@@ -921,7 +966,9 @@
       });
 
       const saved = localStorage.getItem(storageKey);
-      const defaultTheme = manifest.default || (themes[0] && themes[0].id);
+      const defaultTheme = themes.some((theme) => theme.id === "ingama-brand")
+        ? "ingama-brand"
+        : (manifest.default || (themes[0] && themes[0].id));
       const selectedTheme = themes.some((t) => t.id === saved) ? saved : defaultTheme;
 
       if (!selectedTheme) return;

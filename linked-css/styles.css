@@ -7,6 +7,7 @@
   --surface-alt: #efe4d6;
   --panel-bg: #efe1d1;
   --logo-strip-bg: #e5e2d8;
+  --logo-bg: var(--bg);
   --edge: rgba(61, 42, 34, 0.16);
   --hero-image: url("assets/hero-scene.svg");
   --hero-pattern-image: none;
@@ -17,9 +18,9 @@
   --card-radius: 13px;
 
   /* Semantic tokens for theme-driven page skins */
-  --color-page-start: color-mix(in srgb, var(--bg) 88%, var(--surface) 12%);
-  --color-page-mid: var(--surface);
-  --color-page-end: color-mix(in srgb, var(--bg) 82%, var(--surface) 18%);
+  --color-page-start: var(--bg);
+  --color-page-mid: var(--bg);
+  --color-page-end: var(--bg);
   --color-text-strong: color-mix(in srgb, var(--secondary) 88%, black 12%);
   --color-text-soft: color-mix(in srgb, var(--secondary) 72%, var(--surface) 28%);
   --color-on-dark: color-mix(in srgb, var(--surface) 96%, transparent);
@@ -43,9 +44,9 @@
 }
 
 :root[data-theme-mode="dark"] {
-  --color-page-start: color-mix(in srgb, var(--bg) 90%, black 10%);
-  --color-page-mid: color-mix(in srgb, var(--surface) 92%, black 8%);
-  --color-page-end: color-mix(in srgb, var(--bg) 86%, black 14%);
+  --color-page-start: var(--bg);
+  --color-page-mid: var(--bg);
+  --color-page-end: var(--bg);
   --color-text-strong: color-mix(in srgb, var(--secondary) 92%, white 8%);
   --color-text-soft: color-mix(in srgb, var(--secondary) 78%, white 22%);
   --color-on-dark: #f7f7f9;
@@ -142,9 +143,7 @@ a {
   width: var(--page-panel-width);
   border: 1px solid var(--edge);
   border-radius: var(--panel-radius);
-  background:
-    linear-gradient(170deg, color-mix(in srgb, var(--panel-bg) 92%, transparent), color-mix(in srgb, var(--surface-alt) 76%, transparent)),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04) 1px, rgba(0, 0, 0, 0.015) 1px, rgba(0, 0, 0, 0.015) 2px);
+  background: var(--panel-bg);
   padding: 2.5% 3%;
 }
 
@@ -158,7 +157,7 @@ a {
 
 /* ── Brand Hero ── */
 .brand-hero {
-  background: var(--logo-strip-bg);
+  background: var(--logo-bg, var(--logo-strip-bg));
   border-top: 1px solid var(--edge);
   border-bottom: 1px solid var(--edge);
   display: grid;
@@ -185,6 +184,7 @@ a {
 }
 
 .brand-hero-copy {
+  background: none;
   min-width: 0;
   max-width: 100%;
 }
@@ -320,13 +320,13 @@ a {
 }
 
 .dropdown-accent {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 88%, transparent), color-mix(in srgb, var(--secondary) 86%, transparent));
+  background: var(--primary);
   color: var(--surface) !important;
   font-weight: 700;
 }
 
 .dropdown-accent:hover {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 76%, black), color-mix(in srgb, var(--secondary) 84%, black));
+  background: color-mix(in srgb, var(--primary) 76%, black);
 }
 
 .theme-tools {
@@ -347,14 +347,12 @@ a {
 
 .hero {
   padding: clamp(52px, 8vw, 80px) 0 clamp(40px, 6vw, 64px);
-  background:
-    linear-gradient(120deg, color-mix(in srgb, var(--primary) 85%, transparent), color-mix(in srgb, var(--secondary) 84%, transparent)),
-    var(--hero-image) center/cover no-repeat;
-  color: var(--surface);
+  background: var(--hero-image) center/cover no-repeat;
+  color: var(--primary);
 }
 
 .hero h1 {
-  color: var(--surface);
+  color: var(--primary);
   font-size: clamp(1.7rem, 4vw, 3rem);
   margin-bottom: 14px;
 }
@@ -382,24 +380,14 @@ a {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background:
-    linear-gradient(120deg, color-mix(in srgb, var(--primary) 36%, transparent), color-mix(in srgb, var(--secondary) 35%, transparent)),
-    var(--hero-image) center/cover no-repeat;
+  background: var(--hero-image) center/cover no-repeat;
 }
 
 .showcase-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--panel-bg) 97%, var(--surface) 3%) 0%,
-    color-mix(in srgb, var(--panel-bg) 97%, var(--surface) 3%) 20%,
-    color-mix(in srgb, var(--panel-bg) 28%, transparent) 20%,
-    color-mix(in srgb, var(--panel-bg) 18%, transparent) 80%,
-    color-mix(in srgb, var(--panel-bg) 94%, var(--surface) 6%) 80%,
-    color-mix(in srgb, var(--panel-bg) 94%, var(--surface) 6%) 100%
-  );
+  background: color-mix(in srgb, var(--panel-bg) 64%, transparent);
   pointer-events: none;
 }
 
@@ -573,7 +561,7 @@ a {
 }
 
 .showcase-featured {
-  background: linear-gradient(155deg, color-mix(in srgb, var(--primary) 84%, transparent), color-mix(in srgb, var(--secondary) 84%, transparent));
+  background: color-mix(in srgb, var(--primary) 84%, transparent);
   border-color: transparent;
 }
 
@@ -638,7 +626,7 @@ a {
 }
 
 .card-highlight {
-  background: linear-gradient(155deg, var(--primary), color-mix(in srgb, var(--secondary) 88%, black));
+  background: var(--primary);
   color: var(--surface);
   border: none;
 }
@@ -692,9 +680,7 @@ a {
 .service-hero {
   position: relative;
   padding: 44px 0 34px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 48%, transparent) 0%, color-mix(in srgb, var(--bg) 10%, transparent) 100%),
-    var(--hero-image, var(--article-image)) center/cover fixed no-repeat;
+  background: var(--hero-image, var(--article-image)) center/cover fixed no-repeat;
 }
 
 .service-hero-content {
@@ -706,7 +692,7 @@ a {
   max-width: 860px;
   padding: clamp(22px, 4vw, 40px);
   border-radius: var(--panel-radius);
-  background: linear-gradient(170deg, color-mix(in srgb, var(--panel-bg) 82%, transparent), color-mix(in srgb, var(--surface-alt) 62%, transparent));
+  background: var(--panel-bg);
   border: 1px solid color-mix(in srgb, var(--edge) 68%, transparent);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
@@ -733,9 +719,7 @@ a {
   position: relative;
   margin-top: 0;
   padding: 54px 0 72px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--panel-bg) 42%, transparent) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 20%, color-mix(in srgb, var(--bg) 22%, transparent) 56%, transparent 100%),
-    var(--article-image, var(--hero-image)) center center / cover fixed no-repeat;
+  background: var(--article-image, var(--hero-image)) center center / cover fixed no-repeat;
 }
 
 .article-inner {
@@ -749,7 +733,7 @@ a {
 
 .section-intro {
   margin-top: 0;
-  background: linear-gradient(160deg, color-mix(in srgb, var(--surface) 90%, transparent), color-mix(in srgb, var(--surface-alt) 76%, transparent));
+  background: var(--surface);
 }
 
 .section-intro h2 {
@@ -816,8 +800,7 @@ a {
 
 body.reviews-page .service-hero {
   padding: 24px 0 0;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 82%, transparent) 0%, color-mix(in srgb, var(--bg) 95%, transparent) 100%);
+  background: var(--bg);
 }
 
 body.reviews-page .hero-panel {
@@ -832,9 +815,7 @@ body.reviews-page .hero-close {
 body.reviews-page .service-article {
   margin-top: 0;
   padding: 28px 0 60px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--panel-bg) 36%, transparent) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 40%, transparent 100%),
-    var(--article-image) center/cover fixed no-repeat;
+  background: var(--article-image) center/cover fixed no-repeat;
 }
 
 .reviews-marquee-head {
@@ -899,7 +880,7 @@ body.reviews-page .service-article {
   border-radius: 12px;
   padding: 12px 14px;
   border: 1px solid var(--edge);
-  background: linear-gradient(160deg, var(--surface) 0%, var(--surface-alt) 100%);
+  background: var(--surface);
 }
 
 .review-pill-text {

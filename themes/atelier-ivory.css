@@ -3,10 +3,13 @@
   --secondary: #2e2722;
   --accent: #9e6f3c;
   --bg: #f8f3ea;
-  --surface: #fffcf7;
+  --surface: rgb(248, 233, 212);
   --surface-alt: #efe2d1;
   --panel-bg: #eadac6;
   --logo-strip-bg: #dfd3c5;
+  --logo-bg: var(--bg);
+  --logo-mark: var(--primary);
+  --logo-text: var(--secondary);
   --edge: rgba(74, 52, 34, 0.2);
   --hero-image: url("assets/hero-scene.svg");
   --hero-pattern-image: url("../assets/hero-patterns/boho-arches.svg");

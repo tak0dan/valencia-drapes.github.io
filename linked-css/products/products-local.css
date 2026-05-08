@@ -133,10 +133,7 @@ body.home-elegant {
 
   .home-elegant #catalogo .product-card::after {
     z-index: 3;
-    background:
-      linear-gradient(180deg, rgba(8, 8, 8, 0.12) 12%, rgba(8, 8, 8, 0.82) 100%),
-      radial-gradient(circle at 14% 14%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 40%),
-      radial-gradient(circle at 86% 84%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 48%);
+    background: rgba(8, 8, 8, 0.52);
     opacity: 0;
     transition: opacity 0.14s cubic-bezier(0.22, 1, 0.36, 1);
   }
