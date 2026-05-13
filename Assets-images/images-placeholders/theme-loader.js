@@ -1910,6 +1910,8 @@
     if (!pageData) return;
 
     const imageSet = servicePageImages[slug];
+    if (!imageSet || !imageSet.hero || !imageSet.article) return;
+    
     const breadcrumb = document.querySelector(".breadcrumb");
     const titleNode = document.querySelector(".hero-panel h1");
     const leadNode = document.querySelector(".hero-panel .lead");
