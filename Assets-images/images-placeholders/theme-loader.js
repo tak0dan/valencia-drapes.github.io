@@ -253,6 +253,21 @@
     return new URL(`../${siblingPath}`, new URL(normalizedBase, window.location.href)).href;
   }
 
+  function resolveAssetUrlFromThemeCss(assetUrl, theme, basePath) {
+    if (!assetUrl) return null;
+
+    const normalizedAssetUrl = String(assetUrl).trim();
+    if (!normalizedAssetUrl) return null;
+
+    if (/^(?:data:|blob:|https?:|file:|\/|\/\/)/i.test(normalizedAssetUrl)) {
+      return normalizedAssetUrl;
+    }
+
+    const normalizedBase = String(basePath || "./themes").replace(/\/?$/, "/");
+    const themeCssPath = theme && theme.css ? `${normalizedBase}${theme.css}` : normalizedBase;
+    return new URL(normalizedAssetUrl, new URL(themeCssPath, window.location.href)).href;
+  }
+
   function parseCssUrl(cssValue) {
     if (!cssValue) return null;
     const normalized = String(cssValue).trim();
@@ -752,7 +767,9 @@
     const configuredPatternUrl = parseCssUrl(computed.getPropertyValue("--hero-pattern-image"));
     const configuredPatternSize = computed.getPropertyValue("--hero-pattern-size").trim();
 
-    let url = configuredPatternUrl;
+    let url = configuredPatternUrl
+      ? resolveAssetUrlFromThemeCss(configuredPatternUrl, theme, basePath)
+      : null;
     let patternSize = configuredPatternSize || "540px 540px";
 
     if (!url) {
@@ -771,7 +788,7 @@
       })
       .catch((error) => {
         if (sequence !== themeApplySequence) return;
-        rootStyle.setProperty("--hero-pattern-image", "none");
+        rootStyle.removeProperty("--hero-pattern-image");
         console.error("Error tematizando ornamento del hero", error);
       });
   }
