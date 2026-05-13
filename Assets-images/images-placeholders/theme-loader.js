@@ -1919,8 +1919,6 @@
     const postCards = document.querySelectorAll(".post-card");
 
     document.title = `${pageData.title} | Ingama Textil`;
-    document.body.style.setProperty("--hero-image", `url("${imageSet.hero}")`);
-    document.body.style.setProperty("--article-image", `url("${imageSet.article}")`);
 
     if (breadcrumb) {
       breadcrumb.innerHTML = `<a href="../../index.html">Inicio</a> / ${pageData.title}`;
