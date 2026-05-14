@@ -1955,7 +1955,7 @@
         .join("");
 
       sectionIntro.innerHTML = `
-        <h2>Descripcion</h2>
+        <h2>Sobre el servicio</h2>
         ${introParagraphs}
       `;
     }
